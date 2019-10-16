@@ -12,64 +12,72 @@ Edutopia
 {% endblock %}
 
 {% block body %}
+<div class="wrap">
 
+  <!--Loading Animation-->
+  <div class="lds-ellipsis" id="lo">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 
-<!--Loading Animation-->
-<div class="lds-ellipsis" id="lo">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
-
-<div class="container-fluid first" style="padding-top: 70px;">
-  <div class="row justify-content-center">
-    <div class="col-auto mb-3" style="padding-left:30px;" id="col1">
-      <div class="card text-white border-dark" style="width: 18rem;" data-aos="fade-up" data-aos-duration="2000"
-        data-aos-delay="6000" id="card1">
-        <img src="{% static 'app/pl.jpg' %}" class="card-img-top" alt="meet people">
-        <div class="card-body">
-          <p class="card-text">Learning something new? Find people who are too!</p>
-          <a href="#" class="btn btn-primary">Learn More</a>
+  <div class="first">
+    <div class="container-fluid first" style="padding-top: 70px;">
+      <div class="row justify-content-center">
+        <div class="col-auto mb-3" style="padding-left:30px;" id="col1">
+          <div class="card text-white border-dark" style="width: 18rem;" data-aos="fade-up" data-aos-duration="2000"
+            data-aos-delay="6000" id="card1">
+            <img src="{% static 'app/pl.jpg' %}" class="card-img-top" alt="meet people">
+            <div class="card-body">
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur</p>
+              <!-- <p class="card-text">Learning something new? Find people who are too!</p> -->
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto mb-3" style="padding-left:130px;" id="col2">
+          <div class="card text-white border-dark" style="width: 18rem;" data-aos="fade-up" data-aos-duration="2000"
+            data-aos-delay="6000" id="card2">
+            <img src="{% static 'app/stuck.jpg'%}" class="card-img-top" alt="doubt">
+            <div class="card-body">
+              <!-- <p class="card-text">Stuck Somewhere? Find a mentor nearby</p> -->
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur</p>
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-auto mb-3" style="padding-left:130px;" id="col3">
+          <div class="card text-white border-dark" style="width: 18rem;" data-aos="fade-up" data-aos-duration="2000"
+            data-aos-delay="6000" id="card3">
+            <img src="{% static 'app/cu.jpeg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <!-- <p class="card-text">Explore sources of learning, experiences and insights</p> -->
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur</p>
+              <a href="#" class="btn btn-primary">Learn More</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-auto mb-3" style="padding-left:130px;" id="col2">
-      <div class="card text-white border-dark" style="width: 18rem;" data-aos="fade-up" data-aos-duration="2000"
-        data-aos-delay="6000" id="card2">
-        <img src="{% static 'app/stuck.jpg'%}" class="card-img-top" alt="doubt">
-        <div class="card-body">
-          <p class="card-text">Stuck Somewhere? Find a mentor nearby</p>
-          <a href="#" class="btn btn-primary">Learn More</a>
-        </div>
+
+    <!--Scroll Animation Arrow-->
+    <a href="test.html">
+      <div class="container" id="f">
+        <div class="chevron"></div>
+        <div class="chevron"></div>
+        <div class="chevron"></div>
       </div>
-    </div>
-    <div class="col-auto mb-3" style="padding-left:130px;" id="col3">
-      <div class="card text-white border-dark" style="width: 18rem;" data-aos="fade-up" data-aos-duration="2000"
-        data-aos-delay="6000" id="card3">
-        <img src="{% static 'app/cu.jpeg' %}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <p class="card-text">Explore sources of learning, experiences and insights</p>
-          <a href="#" class="btn btn-primary">Learn More</a>
-        </div>
-      </div>
-    </div>
+    </a>
+
+    <button id="ab" type="button" class="btn btn-primary btn-lg btn-block">Our Vision</button>
   </div>
 </div>
-
-<!--Scroll Animation Arrow-->
-<div class="container" id="f">
-  <div class="chevron"></div>
-  <div class="chevron"></div>
-  <div class="chevron"></div>
-</div>
-
-<button id="ab" type="button" class="btn btn-primary btn-lg btn-block">Our Vision</button></a>
 {% endblock %}
 
 {% block script %}
 <script>
-  $("button").click(function () {
+  $("#ab").click(function () {
     $('html,body').animate({
       scrollTop: $(".second").offset().top
     },
@@ -91,6 +99,8 @@ Edutopia
 <script>
   function arrow(y) {
     if (y.matches) {
+
+      document.body.style.overflow = "visible";
       document.getElementById("card1").setAttribute("data-aos", "");
       document.getElementById("card1").setAttribute("data-aos-duration", "0");
       document.getElementById("card1").setAttribute("data-aos-delay", "0");
@@ -107,6 +117,7 @@ Edutopia
       $("#ab").show();
     }
     else {
+      document.body.style.overflow = "hidden";
       document.getElementById("card1").setAttribute("data-aos", "fade-up");
       document.getElementById("card1").setAttribute("data-aos-duration", "2000");
       document.getElementById("card1").setAttribute("data-aos-delay", "3000");
