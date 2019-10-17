@@ -17,16 +17,18 @@ a:hover
 {
   display: none;
 }
+.second
+{
+  height:400px;
+  width:300px;
+  background-color:red;
+  display:none;
+}
 
 .card
 {
   background:#31303069;
   border:#31303069;
-}
-
-.second
-{
-  display:none;
 }
 
 /*Loading Animation*/
@@ -96,7 +98,7 @@ a:hover
 /*Arrow Animation*/
 
 .container {
-    position:absolute;
+    /* position:absolute; */
     align-items: center;
     width:85px;
     height:85px;
