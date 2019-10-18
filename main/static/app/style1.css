@@ -13,19 +13,23 @@ a:hover
 {
   color:rgba(0, 0, 0, 0.5) !important; 
 }
+.fas:hover
+{
+  color:rgba(0, 0, 0, 0.5) !important; 
+}
 #ab
 {
   display: none;
 }
 .second
 {
-  height:400px;
-  width:300px;
-  background-color:red;
   display:none;
+  color:white;
+  background:#31303069;
+  border:#31303069;
 }
 
-.card
+#card1,#card2,#card3
 {
   background:#31303069;
   border:#31303069;
