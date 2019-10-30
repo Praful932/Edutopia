@@ -5,8 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 
-[packages]
-gunicorn = "*"
-
 [requires]
 python_version = "3.7"
+
+[packages]
+django = "*"
