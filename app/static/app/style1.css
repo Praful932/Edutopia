@@ -1,12 +1,23 @@
 body 
 {
-    background-image: url('pg1.jpg');
+    background-image: url('pg.jpg');
     background-repeat: no-repeat;
     background-position: top;
     background-attachment: fixed;
     background-size: cover;
     font-family: 'Righteous', cursive;  
-    font-size: 25px;
+    font-size: 1.4em;
+}
+
+@media(max-width:963px) {
+  body {
+      font-size: 1.3em;
+  };
+}
+@media(min-width:963px) {
+  body {
+      font-size: 25px;
+  };
 }
 
 a:hover
