@@ -1,6 +1,5 @@
 {% extends "app/layout.html" %}
 {% load static %}
-
 {% block head %}
 <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
 <link rel="stylesheet" href='{% static "app/style1.css" %}'>
@@ -29,8 +28,7 @@ Edutopia
           data-aos-delay="6000" id="card1">
           <img src="{% static 'app/pl.jpg' %}" class="card-img-top" alt="meet people">
           <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur</p>
-            <!-- <p class="card-text">Learning something new? Find people who are too!</p> -->
+            <p class="card-text">Learning something new? Find people who are too!</p>
             <a href="#" class="btn btn-primary">Learn More</a>
           </div>
         </div>
@@ -40,8 +38,7 @@ Edutopia
           data-aos-delay="6000" id="card2">
           <img src="{% static 'app/stuck.jpg'%}" class="card-img-top" alt="doubt">
           <div class="card-body">
-            <!-- <p class="card-text">Stuck Somewhere? Find a mentor nearby</p> -->
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur</p>
+            <p class="card-text">Stuck Somewhere? Find a mentor nearby</p>
             <a href="" class="btn btn-primary">Learn More</a>
           </div>
         </div>
@@ -51,9 +48,8 @@ Edutopia
           data-aos-delay="6000" id="card3">
           <img src="{% static 'app/cu.jpeg' %}" class="card-img-top" alt="...">
           <div class="card-body">
-            <!-- <p class="card-text">Explore sources of learning, experiences and insights</p> -->
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur</p>
-            <a href="#" class="btn btn-primary">Learn More</a>
+            <p class="card-text">Explore sources of learning, experiences and insights</p>
+            <a href="{% url 'omega' %}" class="btn btn-primary">Learn More</a>
           </div>
         </div>
       </div>
@@ -79,8 +75,8 @@ Edutopia
     <p class="card-text">Edutopia - one stop platform for Students and aspiring Computer Science Enthusiasts.</p>
     <h5 class="card-title">Whats Unique About Edutopia?</h5>
     <p class="card-text">1.Connect with mentors and students near you who are enthusiastic to guide and learn together!</p>
-    <p class="card-text">2.Know about domains in CS, MOOCs, opportunities, latest technologies and tools to grow yourself.</p>
-    <p class="card-text">3.Last but Not the Least - Transition from I to We.</p>
+    <p class="card-text">2.Start out in any domain with steps and links of curated resources.</p>
+    <p class="card-text">3.Know about the latest opportunites in the field.</p>
     <a href="#" class="btn btn-primary">Go somewhere</a>
     <a href="#" class="btn btn-primary">Go somewhere</a>
     <i class="float-right fas fa-angle-double-up fa-2x" style="color:white" id="up"></i>

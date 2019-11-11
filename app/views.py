@@ -9,3 +9,6 @@ def login(request):
 
 def register(request):
     return render(request,"app/register.html")
+
+def omega(request):
+    return render(request,"app/omega.html")

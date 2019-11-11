@@ -1,0 +1,9 @@
+body
+{
+    background-size: cover;
+    background-image: url('pg.jpg');
+    font-family: 'Righteous',cursive;
+    font-size: 25px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
