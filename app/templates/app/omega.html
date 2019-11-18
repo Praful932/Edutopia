@@ -6,5 +6,70 @@
 {% endblock %}
 
 {% block title %}
-    
+Explore
+{% endblock %}
+
+{% block body %}
+
+<!-- Career tracks -->
+<div class="container-fluid">
+    <div class="card mx-auto mt-3 ct">
+        <div class="card-header text-center">Explore Career Tracks </div>
+        <div class="card-body d-block mx-auto">
+            <div class="row justify-content-center align-items-center">
+                <div class="item"><i class="fas fa-code fa-2x mb-2"></i><span class="caption">Basic Programming</span>
+                </div>
+                <div class="item"><i class="fas fa-blog fa-2x mb-2"></i>><span class="caption">Web Development</span>
+                </div>
+                <div class="item"><i class="fas fa-robot fa-2x mb-2"></i><span class="caption">Machine Learning</span>
+                </div>
+                <div class="item"><i class="fas fa-gamepad  fa-2x mb-2"></i><span class="caption">Game
+                        Development</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Posts by Mentor -->
+<div class="container-fluid posts">
+    <div class="card mx-auto mt-3 card-p">  
+        <div class="card-header text-center">
+            Posts
+        </div>
+
+        <div class="card mb-4 card-p">
+            <div class="card-body">
+                <h4 class="card-title">Post Title</h4>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
+                    nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
+                    voluptatibus possimus, veniam magni quis!</p>
+                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                <div class="float-right">Tags: &nbsp;  <span class="badge badge-info">Tag1</span>&nbsp;&nbsp;<span class="badge badge-info">Tag1</span> </div>
+            </div>
+            
+
+            <div class="card-footer text-muted">
+                {insert date time here} by
+                <a href="#">Author</a>
+            </div>
+        </div>
+
+        <div class="card mb-4 card-p">
+            <div class="card-body">
+                <h4 class="card-title">Post Title</h4>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
+                    nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
+                    voluptatibus possimus, veniam magni quis!</p>
+                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            </div>
+            <div class="card-footer text-muted">
+                {insert date time here} by
+                <a href="#">Author</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

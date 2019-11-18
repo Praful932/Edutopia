@@ -4,8 +4,8 @@ from . import views
 # django.urls expects an app as an argument
 
 urlpatterns=[
-    path("",views.index,name='home'),
-    path("login/",views.login,name='login'),
-    path("register/",views.register,name='register'),
-    path("omega/",views.omega,name='omega')
+    path("",views.index,name='index'),
+    path(r"login",views.login,name='login'),
+    path(r"register",views.register,name='register'),
+    path(r"omega",views.omega,name='omega')
 ]

@@ -12,6 +12,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_student=models.BooleanField('student status',default=False)
     is_mentor=models.BooleanField('mentor status',default=False)
+    
+    def __str__(self):
+        return self.first_name
 
 class Domain(models.Model):
     name=models.CharField(max_length=100)

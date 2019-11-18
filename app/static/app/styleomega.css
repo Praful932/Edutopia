@@ -1,9 +1,35 @@
 body
 {
     background-size: cover;
-    background-image: url('pg.jpg');
+    background-image: url('career.jpg');
     font-family: 'Righteous',cursive;
+    /* background-color: #00909e; */
     font-size: 25px;
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
+.ct,.card-p
+{
+    color: #2b2b2b;
+    background:#f8f8f85b;
+}
+.card-p
+{
+    font-size:20px;
+}
+.container
+{
+    width:1000px;
+}
+div.item 
+{
+    text-align: center;
+    padding: 15px;
+}
+.caption
+{
+    font-size:15px;
+    display: block;
+}
+
+

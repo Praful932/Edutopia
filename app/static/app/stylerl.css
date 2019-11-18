@@ -2,6 +2,7 @@ body
 {
     background-size: cover;
     background-image: url('pg.jpg');
+    /* background-color: #1b2a49; */
     font-family: 'Righteous',cursive;
     font-size: 25px;
     background-attachment: fixed;
