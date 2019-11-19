@@ -8,6 +8,14 @@ body
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
+#usertype
+{
+  margin-bottom: 1rem;
+}
+#studentform,#mentorform
+{
+  display:none;;
+}
 .container
 {
     font-size: 20px;

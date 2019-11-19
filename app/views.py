@@ -8,7 +8,9 @@ def login(request):
     return render(request,"app/login.html")
 
 def register(request):
-    return render(request,"app/register.html")
+    if(request.method=="GET"):
+        return render(request,"app/register.html") 
+
 
 def omega(request):
     return render(request,"app/omega.html")

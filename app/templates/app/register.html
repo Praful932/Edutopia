@@ -17,35 +17,86 @@ Register
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center" style="color: white;">Register</h5>
-                    <form class="form-signin">
+                    {% csrf_token %}
+                    <form class="form-signin" method="post" >
 
                         <div class="form-label-group">
                             <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
-                                required autofocus>
+                                required autofocus name="email">
                             <label for="inputEmail" style="text-align: left;">Email address</label>
                         </div>
-                        
+
                         <div class="form-label-group">
                             <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-                                required>
+                                required name="password">
                             <label for="inputPassword" style="text-align: left;">Password</label>
                         </div>
-                        
-                        <div class="form-label-group" style="color:white">
-                            <input type="radio" name="c" value="student"> Student<br> 
-                            <input type="radio" name="c" value="mentor"> Mentor
-                        </div>
+
                         <div class="custom-control custom-checkbox mb-3">
                             <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1" style="color: white; font-size:15px;" >Remember password</label>
+                            <label class="custom-control-label" for="customCheck1"
+                                style="color: white; font-size:15px;">Remember password</label>
                         </div>
+
+                        <!-- User Type -->
+                        <select class="custom-select" id="usertype">
+                            <option selected disabled>Choose User Type</option>
+                            <option value="s">Student</option>
+                            <option value="m">Mentor</option>
+                        </select>
+
+                        <!-- If student -->
+                        <div id="studentform">
+                            <select class="custom-select">
+                                <option selected disabled>Choose Your Domain</option>
+                                <option value="domain1">Lorem ipsum</option>
+                                <option value="domain2">Lorem ipsum</option>
+                            </select>
+                        </div>
+
+                        <!-- if mentor -->
+                        <div id="mentorform" style="color:white">
+                            Choose your Domain/s
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                <label class="custom-control-label" for="customCheck2">Domain1</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                <label class="custom-control-label" for="customCheck3">Domain2</label>
+                            </div>
+                        </div><br>
+
                         <button class="btn btn-lg btn-primary" type="submit">Sign up</button>
-                        <button class="btn  btn-google" type="submit" ><i
-                                class="fab fa-google mr-2"></i> Sign up with Google</button>
-                    </form> 
+                        <button class="btn  btn-google" type="submit"><i class="fab fa-google mr-2"></i> Sign up with
+                            Google</button>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $("#usertype").change(function () {
+            var c = $(this).val();
+            if (c == "s") {
+                $("#studentform").css("display","block");
+                $("#mentorform").css("display", "none");
+            }
+            else if (c == "m") {
+                $("#mentorform").css("display", "block");
+                $("#studentform").css("display", "none");
+            }
+            else {
+                $("#studentform").css("display", "none");
+                $("#mentorform").css("display", "none");
+            }
+        });
+    });
+</script>
 {% endblock %}

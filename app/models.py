@@ -18,8 +18,11 @@ class User(AbstractUser):
 
 class Domain(models.Model):
     name=models.CharField(max_length=100)
-    description=models.CharField(max_length=100)
-    domaintrack=models.URLField(max_length=200)
+    description=models.CharField(max_length=100,null=True)
+    domaintrack=models.URLField(max_length=200,null=True)
+
+    def __str__(self):
+        return self.name
 
 class Student(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
@@ -34,11 +37,14 @@ class Mentor(models.Model):
 
 class Post(models.Model):
     topic=models.CharField(max_length=100)
-    content=models.TextField(max_length=1000)
+    content=models.TextField(max_length=1000,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     last_updated=models.DateTimeField(auto_now=True)
     domain=models.ForeignKey(Domain,on_delete=models.CASCADE,related_name="topicposts")
     owner=models.ForeignKey(Mentor,on_delete=models.CASCADE,related_name="postsby")
+
+    def __str__(self):
+        self.topic
 
 
     
