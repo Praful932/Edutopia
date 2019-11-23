@@ -10,7 +10,11 @@ def login(request):
 def register(request):
     if(request.method=="GET"):
         return render(request,"app/register.html") 
-
-
+        
 def omega(request):
     return render(request,"app/omega.html")
+
+def registerStudent(request):
+    return render(request,"app/registerstudent.html")
+
+

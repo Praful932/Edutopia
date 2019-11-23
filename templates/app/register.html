@@ -1,0 +1,44 @@
+{% extends "app/layout.html" %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/stylerl.css'%}">
+<link href="https://fonts.googleapis.com/css?family=Oleo+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Yatra+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+{% endblock %}
+{% block title %}
+Register
+{% endblock %}
+
+
+
+{% block body %}
+
+<div class="row  mx-auto mt-5">
+    <div class="col-sm-6">
+        <div class="card mr-5">
+            <div class="card-body">
+                <h4 class="card-title" style="text-align:center;">Join as Student</h4>
+                <p class="card-text">If you register as a Student you would be able to<br>
+                    1. Know fellow entusiastic people near you who have the same domain interests as you.<br>
+                    2. Get up to speed with a possible mentor nearby who could guide you in your field.<br>
+                    3. Browse posts and current opportunities posted by mentors.<br>
+                </p>
+                <a href="{% url 'registerStudent' %}" class="btn btn-primary">Sign up as a Student</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card ml-5">
+            <div class="card-body">
+                <h4 class="card-title" style="text-align: center;">Apply as Mentor</h4>
+                <p class="card-text">Responsibilies for a Mentor would be:</p>
+                1. Guide 
+                <br><a href="#" class="btn btn-primary">Apply as a Mentor</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

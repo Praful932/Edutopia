@@ -14,7 +14,7 @@ class User(AbstractUser):
     is_mentor=models.BooleanField('mentor status',default=False)
     
     def __str__(self):
-        return self.first_name
+        return self.username
 
 class Domain(models.Model):
     name=models.CharField(max_length=100)
