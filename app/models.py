@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django import forms
 # Create your models here.
 
 # on_delete=models.CASCADE when a foreign key's table is deleted delete all records if
@@ -8,6 +9,12 @@ from django.contrib.auth.models import AbstractUser
 # using related name(defined in class a) it is possible to access all the objects related in class a from class b
 
 # using blank=True makes to user associated with no domains
+
+# The first item in the (tuple) is the value and second is the label to be shown on the radio button
+
+# metadata ordering can be used to control default ordering of records
+
+
 
 class User(AbstractUser):
     is_student=models.BooleanField('student status',default=False)
@@ -25,14 +32,20 @@ class Domain(models.Model):
         return self.name
 
 class Student(models.Model):
+    level=(
+        ('beg','Beginner'),
+        ('inter','Intermediate'),
+        ('exp','Expert')
+        )
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     domain=models.OneToOneField(Domain,on_delete=models.CASCADE)
-    prof=models.TextField(max_length=50)
+    proficiency=models.CharField(max_length=5,choices=level)
     
 
 class Mentor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     domains=models.ManyToManyField(Domain,blank=False,related_name="experts")
+    
 
 
 class Post(models.Model):
