@@ -8,7 +8,9 @@ from app.models import User,Student,Mentor,Domain
 class StudentSignUpForm(UserCreationForm):
     class Meta():
         fields=['username','email','password1','password2']
-        model=User 
+        model=User
+    
+
         
 class StudentFieldForm(forms.ModelForm):
     class Meta():

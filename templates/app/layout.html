@@ -30,14 +30,28 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <div class="navbar-nav navbar-right ml-auto wh">
-                <a class="nav-item nav-link" href="{% url 'index' %}" style="padding-right: 15px ; color:white;">Home</a>
+                <a class="nav-item nav-link" href="{% url 'index' %}"
+                    style="padding-right: 15px ; color:white;">Home</a>
                 <a class="nav-item nav-link" href="#" style="padding-right: 15px ; color:white">Explore</a>
-                <a class="nav-item nav-link" href="{% url 'login' %}" style="padding-right: 15px ; color:white">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}" style="padding-right: 15px ; color:white">Register</a>
+                <a class="nav-item nav-link" href="{% url 'login' %}"
+                    style="padding-right: 15px ; color:white">Login</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}"
+                    style="padding-right: 15px ; color:white">Register</a>
                 <a class="nav-item nav-link" href="#" style="padding-right: 15px ; color:white">About</a>
             </div>
         </div>
     </nav>
+    <!-- To show flash messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-secondary alert-dismissible fade show" role="alert" style="font-size:20px;">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% block body %}{% endblock %}
 
     <!-- Optional JavaScript -->

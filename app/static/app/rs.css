@@ -1,7 +1,7 @@
 body
 {
     background-size: cover;
-    background-image: url('pg.jpg');
+    background-image: url('career.jpg');
     /* background-color: #1b2a49; */
     font-family: 'Righteous',cursive;
     font-size: 25px;
@@ -10,12 +10,16 @@ body
 }
 .container
 {
-    color:white;
     font-size: 20px;
+}
+.nav-item
+{
+  color:#2b2b2b !important;
 }
 .card
 {
-    background:#31303069;
+  color: #2b2b2b;
+  background:#f8f8f8d3;
 }
 a:hover
 {

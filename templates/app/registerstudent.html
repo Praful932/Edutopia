@@ -12,10 +12,10 @@ Sign up - Student
 {% block body %}
 <div class="container">
     <div class="row">
-        <div class="col-lg-10 mx-auto">
+        <div class="col-lg-9 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center" style="color: white;">Register</h5>
+                    <h5 class="card-title text-center">Register</h5>
                     <form method="POST">
                         {% csrf_token %}
                         {{ signupform|crispy }}
