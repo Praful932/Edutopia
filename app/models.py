@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django import forms
+from django.utils import timezone
 # Create your models here.
 
 # on_delete=models.CASCADE when a foreign key's table is deleted delete all records if any associated with it
@@ -31,25 +32,34 @@ class Student(models.Model):
         )
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     domain=models.OneToOneField(Domain,on_delete=models.CASCADE)
-    proficiency=models.CharField(max_length=5,choices=level,default="beg")  
+    proficiency=models.CharField(max_length=5,choices=level,default="beg") 
+
+    def __str__(self):
+        return self.user.username + ' - Student'
     
 
 class Mentor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     domains=models.ManyToManyField(Domain,blank=False,related_name="experts")
+    OtherInfo=models.CharField(max_length=200,null=True, help_text="Your Github/Portfolio Page or Anything you would like to add")
     
+    def __str__(self):
+        return self.user.username + ' (Mentor)'
 
 
 class Post(models.Model):
     topic=models.CharField(max_length=100)
     content=models.TextField(max_length=1000,null=True)
-    created_at=models.DateTimeField(auto_now_add=True)
+    created_at=models.DateTimeField(default = timezone.now)
     last_updated=models.DateTimeField(auto_now=True)
     domain=models.ForeignKey(Domain,on_delete=models.CASCADE,related_name="topicposts")
     owner=models.ForeignKey(Mentor,on_delete=models.CASCADE,related_name="postsby")
 
+    def gist(self):
+        return self.content[:20] + '...'
+
     def __str__(self):
-        self.topic
+        return self.topic + f'- {self.owner}'
 
 
     

@@ -1,26 +1,40 @@
 from django.shortcuts import render, redirect
-from app.forms import StudentSignUpForm, StudentFieldForm
+from app.forms import StudentSignUpForm, StudentFieldForm, MentorSignUpForm, MentorFieldForm, MentorPostForm
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
-
+from django.contrib.auth.decorators import login_required
+from app.models import User, Domain, Student, Mentor, Post
 # commit = False used when before saving it is needed to input any other data or associated any other model
-
 # Create your views here.
+
+
 def index(request):
-    return render(request,"app/index.html")
+    return render(request, "app/index.html")
+
 
 def loginf(request):
-    return render(request,"app/login.html")
+    if request.user.is_authenticated:
+        logout(request)
+    return render(request, "app/login.html")
+
 
 def register(request):
-    if(request.method=="GET"):
-        return render(request,"app/register.html") 
+    return render(request, "app/register.html")
+
 
 def omega(request):
-    return render(request,"app/omega.html")
+    posts = Post.objects.all()
+    context = {
+        'posts' : posts
+    }
+    return render(request, "app/omega.html", context=context)
+
 
 def registerStudent(request):
-    if request.method=='POST':
+    if request.user.is_authenticated:
+        logout(request)
+
+    if request.method == 'POST':
         # Create form instance with POST data
         signupform = StudentSignUpForm(request.POST)
         studentform = StudentFieldForm(request.POST)
@@ -31,27 +45,89 @@ def registerStudent(request):
             new_user = signupform.save()
             # login the new registered user
             login(request, new_user)
-            student=studentform.save(commit=False)
+            student = studentform.save(commit=False)
             student.user = new_user
             studentform.save()
-            messages.success(request,f'Account successfully created for {username}!')
+            messages.success(
+                request, f'Account successfully created for {username}!')
             return redirect('index')
     else:
         signupform = StudentSignUpForm()
         studentform = StudentFieldForm()
-    context={
-    'signupform' : signupform ,
-    'studentform' : studentform
+    context = {
+        'signupform': signupform,
+        'studentform': studentform
     }
-    return render(request,"app/registerstudent.html",context=context)
+    return render(request, "app/registerstudent.html", context=context)
+
+
+def registerMentor(request):
+    if request.user.is_authenticated:
+        logout(request)
+
+    if request.method == 'GET':
+        signupform = MentorSignUpForm()
+        mentorform = MentorFieldForm()
+        context = {
+            'signupform': signupform,
+            'mentorform': mentorform
+        }
+    else:
+        signupform = MentorSignUpForm(request.POST)
+        mentorform = MentorFieldForm(request.POST)
+        if signupform.is_valid() and mentorform.is_valid():
+            username = signupform.cleaned_data.get('username')
+            new_user = signupform.save(commit=False)
+            new_user.is_mentor = True
+            new_user = signupform.save()
+            login(request, new_user)
+            mentor = mentorform.save(commit=False)
+            mentor.user = new_user
+            mentorform.save()
+            messages.success(
+                request, f'Account successfully created for {username}!')
+            return redirect('index')
+
+    return render(request, "app/registermentor.html", context=context)
+
 
 def logoutf(request):
     # Check if user is logged in if not redirect to login page
     if request.user.is_authenticated:
         username = request.user.username
         logout(request)
-        messages.success(request,f'Successfully Logged out {username}!')
+        messages.success(request, f'Successfully Logged out {username}!')
         return redirect('index')
     return redirect('login')
-        
 
+
+@login_required
+def MentorPost(request):
+    if request.user.is_student:
+        messages.success(
+            request, f'Only Mentors are allowed to access this page!')
+        return redirect('index')
+    if request.method == 'GET':
+        mentorpostform = MentorPostForm()
+        context = {
+            'mentorpostform': mentorpostform
+        }
+    else:
+        mentorpostform = MentorPostForm(request.POST)
+        if mentorpostform.is_valid():
+            ob = mentorpostform.save(commit=False)
+            # get the current logged in users mentor object to associate with post as foreign key
+            mentor = Mentor.objects.get(user=request.user)
+            ob.owner = mentor
+            mentorpostform.save()
+            return redirect('omega')
+    return render(request, 'app/mentorpost.html', context=context)
+
+# pk should be same as defined in urls.py
+def SinglePost(request,pk):
+    post = Post.objects.get(id=pk)
+    context = {
+        'post' : post
+    }
+    return render(request,"app/singlepost.html",context=context)
+    

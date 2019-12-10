@@ -35,41 +35,30 @@ Explore
 
 <!-- Posts by Mentor -->
 <div class="container-fluid posts">
-    <div class="card mx-auto mt-3 card-p">  
+    <div class="card mx-auto mt-3 card-p">
         <div class="card-header text-center">
             Posts
+            {% if user.is_authenticated and user.is_mentor == True %}
+            <a href="{% url 'MentorPost' %}" class="btn btn-success float-right">Publish New Post</a>
+            {% endif %}
         </div>
-
+        {% for post in posts %}
         <div class="card mb-4 card-p">
             <div class="card-body">
-                <h4 class="card-title">Post Title</h4>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
-                    nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
-                    voluptatibus possimus, veniam magni quis!</p>
-                <a href="#" class="btn btn-primary">Read More &rarr;</a>
-                <div class="float-right">Tags: &nbsp;  <span class="badge badge-info">Tag1</span>&nbsp;&nbsp;<span class="badge badge-info">Tag1</span> </div>
-            </div>
-            
-
-            <div class="card-footer text-muted">
-                {insert date time here} by
-                <a href="#">Author</a>
-            </div>
-        </div>
-
-        <div class="card mb-4 card-p">
-            <div class="card-body">
-                <h4 class="card-title">Post Title</h4>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
-                    nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
-                    voluptatibus possimus, veniam magni quis!</p>
-                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                <h4 class="card-title">{{ post.topic }}</h4>
+                <p class="card-text">{{ post.gist }}</p>
+                <a href="{% url 'SinglePost' pk=post.id %}" class="btn btn-primary">Read More &rarr;</a>
+                <div class="float-right">Tags: &nbsp; <span
+                        class="badge badge-info">{{ post.domain }}</span>&nbsp;&nbsp;<span
+                        class="badge badge-info">Tag2</span> </div>
             </div>
             <div class="card-footer text-muted">
-                {insert date time here} by
-                <a href="#">Author</a>
+                {{ post.created_at }} by
+                <a href="#">{{ post.owner }}</a>
             </div>
         </div>
+        {% endfor %}
+
     </div>
 </div>
 

@@ -2,11 +2,11 @@
 {% load static %}
 {% block head %}
 <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'app/rs.css'%}">
+<link rel="stylesheet" href="{% static 'app/mentorpost.css'%}">
 {% endblock head %}
 
 {% block title %}
-Apply - Mentor
+Publish New Post
 {% endblock title %}
 {% load crispy_forms_tags %}
 {% block body %}
@@ -15,17 +15,12 @@ Apply - Mentor
         <div class="col-lg-9 mx-auto">
             <div class="card card-signin my-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Apply for Mentorship</h5>
+                    <h5 class="card-title text-center">Create New Post</h5>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ signupform|crispy }}
-                        {{ mentorform|crispy }}
-                        <button class="btn btn-lg btn-primary" type="submit">Submit</button>
-                        <button class="btn  btn-google" type="submit"><i class="fab fa-google mr-2"></i> Sign up with
-                            Google</button>
+                        {{ mentorpostform|crispy }}
+                        <button class="btn btn-lg btn-primary" type="submit">Post</button>
                     </form>
-
-
                 </div>
             </div>
         </div>

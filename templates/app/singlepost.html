@@ -1,0 +1,37 @@
+{% extends "app/layout.html" %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{%  static 'app/styleomega.css' %}">
+{% endblock %}
+
+{% block title %}
+Explore
+{% endblock %}
+
+{% block body %}
+
+<!-- Posts by Mentor -->
+<div class="container-fluid posts">
+    <div class="card mx-auto mt-3 card-p">
+        <div class="card-header text-center">
+            {{ post.topic }}
+        </div>
+        <div class="card mb-4 card-p">
+            <div class="card-body">
+                <p class="card-text">{{ post.gist }}</p>
+
+                <div class="float-right">Tags: &nbsp; <span
+                        class="badge badge-info">{{ post.domain }}</span>&nbsp;&nbsp;<span
+                        class="badge badge-info">Tag2</span> </div>
+            </div>
+            <div class="card-footer text-muted">
+                {{ post.created_at }} by
+                <a href="#">{{ post.owner }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
