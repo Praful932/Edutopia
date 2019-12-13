@@ -37,3 +37,8 @@ class MentorPostForm(forms.ModelForm):
     class Meta():
         fields =['topic','content','domain']
         model = Post
+
+class LocForm(forms.ModelForm):
+    class Meta():
+        fields = ['lat','lng']
+        model = User

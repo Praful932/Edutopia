@@ -1,0 +1,148 @@
+{% extends 'app/layout.html' %} {% load static %} {% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/stylealphaadd.css' %}"> {% endblock %}
+{% block title %} Add Your Pin {% endblock %}
+
+{% block body %}
+<div class="card">
+  <div class="card-header">
+    Add your Location
+    <button type="submit" class="btn btn-info float-right ml-3" onclick="submitloc()">Save My Location</button>
+    <!-- <a href="#" class="btn btn-info float-right ml-3" onclick="submitloc()">Save My Location</a> -->
+    <input type="text" class="form-control float-right" style="width:300px;" id="location-text-box"
+      placeholder="Enter place to search">
+  </div>
+  <div id="map"></div>
+  <div>
+    <form method="POST" id="form1">
+      {% csrf_token %}
+      {{ locform.lat.as_hidden }}
+      {{ locform.lng.as_hidden }}
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+  var finallat;
+  var finallng;
+  var location;
+  document.getElementById('location-text-box').value = '';
+  var map;
+  var marker;
+
+  function initMap() {
+    var mapOptions = {
+      zoom: 12
+    };
+    map = new google.maps.Map(document.getElementById('map'),
+      mapOptions);
+
+    // Get GEOLOCATION
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = new google.maps.LatLng(position.coords.latitude,
+          position.coords.longitude);
+
+        map.setCenter(pos);
+        marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          draggable: true
+        });
+      }, function () {
+        handleNoGeolocation(true);
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleNoGeolocation(false);
+    }
+
+    function handleNoGeolocation(errorFlag) {
+      if (errorFlag) {
+        var content = 'Error: The Geolocation service failed.';
+      } else {
+        var content = 'Error: Your browser doesn\'t support geolocation.';
+      }
+
+      var options = {
+        map: map,
+        position: new google.maps.LatLng(60, 105),
+        content: content
+      };
+
+      map.setCenter(options.position);
+      marker = new google.maps.Marker({
+        position: options.position,
+        map: map,
+        draggable: true
+      });
+
+    }
+
+    // get places auto-complete when user type in location-text-box
+    var input = /** @type {HTMLInputElement} */
+      (
+        document.getElementById('location-text-box'));
+
+
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
+
+    var infowindow = new google.maps.InfoWindow();
+    marker = new google.maps.Marker({
+      map: map,
+      anchorPoint: new google.maps.Point(0, -29),
+      draggable: true
+    });
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+      infowindow.close();
+      marker.setVisible(false);
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        return;
+      }
+
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17); // Why 17? Because it looks good.
+      }
+
+      marker.setPosition(place.geometry.location);
+      marker.setVisible(true);
+
+      var address = '';
+      if (place.address_components) {
+        address = [
+          (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+        ].join(' ');
+      }
+
+    });
+
+
+
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+  function submitloc() {
+    //finallat = marker.position.lat();
+    //finallng = marker.position.lng();
+    //document.getElementById('id_lat').value = marker.position.lat();
+    // round to 6 decimal places
+    $('#id_lat').val((marker.position.lat().toFixed(6)));
+    $('#id_lng').val((marker.position.lng().toFixed(6)));
+    document.getElementById('form1').submit();
+  }
+</script>
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsIEEqoBh7-rXnD9hU2PCbLy2WAJakfb0&libraries=places&callback=initMap"></script>
+{% endblock %}

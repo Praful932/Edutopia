@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from app.forms import StudentSignUpForm, StudentFieldForm, MentorSignUpForm, MentorFieldForm, MentorPostForm
+from app.forms import StudentSignUpForm, StudentFieldForm, MentorSignUpForm, MentorFieldForm, MentorPostForm, LocForm
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -25,7 +25,7 @@ def register(request):
 def omega(request):
     posts = Post.objects.all()
     context = {
-        'posts' : posts
+        'posts': posts
     }
     return render(request, "app/omega.html", context=context)
 
@@ -124,10 +124,40 @@ def MentorPost(request):
     return render(request, 'app/mentorpost.html', context=context)
 
 # pk should be same as defined in urls.py
-def SinglePost(request,pk):
+
+
+def SinglePost(request, pk):
     post = Post.objects.get(id=pk)
     context = {
-        'post' : post
+        'post': post
     }
-    return render(request,"app/singlepost.html",context=context)
-    
+    return render(request, "app/singlepost.html", context=context)
+
+
+@login_required
+def alpha(request):
+    if request.method == 'GET':
+        return render(request, 'app/alpha.html')
+
+# Only Students
+@login_required
+def AlphaAdd(request):
+    if request.method == 'GET':
+        locform = LocForm()
+    else:
+        locform = LocForm(request.POST)
+        print(locform.errors)
+        if locform.is_valid():
+            lat=locform.cleaned_data['lat']
+            lng=locform.cleaned_data['lng']
+            # Create user object since locform cannot be used as it will create 
+            # another blank instance of user so update fields only of current user
+            f = User.objects.get(id=request.user.id)
+            f.lat = lat
+            f.lng = lng
+            f.save()
+            return redirect('index')
+    context = {
+            'locform': locform
+        }
+    return render(request, 'app/alphaadd.html', context=context)

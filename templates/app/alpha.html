@@ -1,0 +1,25 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block title %}
+Find Nearby People
+{% endblock %}
+
+{% block body %}
+<div class="card text-center">
+    <div class="card-header">
+      People Nearby You
+      <a href="{% url 'AlphaAdd' %}" class="btn btn-success float-right">Add my Pin</a>
+    </div>
+    <div class="card-body">
+      <!-- Map here -->
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
+{% endblock %}

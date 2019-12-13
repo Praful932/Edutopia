@@ -1,61 +1,54 @@
-{% extends "app/layout.html" %}
-{% load static %}
-{% block head %}
-<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'app/rs.css'%}">
-{% endblock %}
-
-{% block title %}
-Sign up - Student
-{% endblock %}
-
-{% block body %}
-<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    <h5 class="card-title text-center" style="color: white;">Register</h5>
-                    {% csrf_token %}
-                    <form class="form-signin" method="post" >
-
-                        <div class="form-label-group">
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
-                                required autofocus name="email">
-                            <label for="inputEmail" style="text-align: left;">Email address</label>
-                        </div>
-
-                        <div class="form-label-group">
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-                                required name="password">
-                            <label for="inputPassword" style="text-align: left;">Password</label>
-                        </div>
-
-                        <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" for="customCheck1"
-                                style="color: white; font-size:15px;">Remember password</label>
-                        </div>
-
-
-                        <!-- If student -->
-                        <div id="studentform">
-                            <select class="custom-select">
-                                <option selected disabled>Choose Your Domain</option>
-                                <option value="domain1">Lorem ipsum</option>
-                                <option value="domain2">Lorem ipsum</option>
-                            </select>
-                        </div>
-
-                        <button class="btn btn-lg btn-primary" type="submit">Sign up</button>
-                        <button class="btn  btn-google" type="submit"><i class="fab fa-google mr-2"></i> Sign up with
-                            Google</button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+<script>
+        //intimap call from script url
+      
+        var marker, map, infoWindow;
+      
+        function initMap() {
+          infoWindow = new google.maps.InfoWindow;
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+              var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+      
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('Location found.');
+              infoWindow.open(map);
+              map = new google.maps.Map(document.getElementById('map'),
+                {
+                  zoom: 15,
+                  center: pos
+                });
+                    marker = new google.maps.Marker({
+            position: pos,
+            title: 'Your location',
+            map: map,
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+          });
+          marker.addListener('click', toggleBounce);
+            }, function () {
+              handleLocationError(true, infoWindow, map.getCenter());
+            });
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
+          //var myLatLng = { lat: 19.9849269, lng: 73.7166353 };
+      
+      
+        }
+      
+        function toggleBounce() {
+          if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+          }
+          else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+          }
+        }
+      
+      
+      
+      </script>

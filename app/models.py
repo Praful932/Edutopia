@@ -12,14 +12,15 @@ from django.utils import timezone
 class User(AbstractUser):
     is_student=models.BooleanField('student status',default=False)
     is_mentor=models.BooleanField('mentor status',default=False)
-    
+    lat=models.DecimalField(max_digits=9,decimal_places=6,blank=True,null=True)
+    lng=models.DecimalField(max_digits=9,decimal_places=6,blank=True,null=True)
     def __str__(self):
         return self.username
 
 class Domain(models.Model):
     name=models.CharField(max_length=100)
-    description=models.CharField(max_length=100,null=True)
-    domaintrack=models.URLField(max_length=200,null=True)
+    description=models.CharField(max_length=100)
+    domaintrack=models.URLField(max_length=200)
 
     def __str__(self):
         return self.name
@@ -41,7 +42,7 @@ class Student(models.Model):
 class Mentor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     domains=models.ManyToManyField(Domain,blank=False,related_name="experts")
-    OtherInfo=models.CharField(max_length=200,null=True, help_text="Your Github/Portfolio Page or Anything you would like to add")
+    OtherInfo=models.TextField(max_length=200, help_text="Your Github/Portfolio Page or Anything you would like to add")
     
     def __str__(self):
         return self.user.username + ' (Mentor)'
@@ -49,7 +50,7 @@ class Mentor(models.Model):
 
 class Post(models.Model):
     topic=models.CharField(max_length=100)
-    content=models.TextField(max_length=1000,null=True)
+    content=models.TextField(max_length=1000)
     created_at=models.DateTimeField(default = timezone.now)
     last_updated=models.DateTimeField(auto_now=True)
     domain=models.ForeignKey(Domain,on_delete=models.CASCADE,related_name="topicposts")
@@ -62,6 +63,5 @@ class Post(models.Model):
         return self.topic + f'- {self.owner}'
 
 
-    
 
 
