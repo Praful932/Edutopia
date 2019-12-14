@@ -2,7 +2,8 @@
 {% load static %}
 {% block head %}
 <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/stylealpha.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -11,15 +12,78 @@ Find Nearby People
 
 {% block body %}
 <div class="card text-center">
-    <div class="card-header">
-      People Nearby You
-      <a href="{% url 'AlphaAdd' %}" class="btn btn-success float-right">Add my Pin</a>
-    </div>
-    <div class="card-body">
-      <!-- Map here -->
-    </div>
-    <div class="card-footer text-muted">
-      2 days ago
-    </div>
+  <div class="card-header">
+    {% if user.is_mentor %}
+      Students Nearby
+    {% endif %}
+    {% if user.is_student %}
+    People Nearby You
+    <a href="{% url 'AlphaAdd' %}" class="btn btn-success float-right">Add my Pin</a>
+    {% endif %}
   </div>
-{% endblock %}
+  <div id="map"></div>
+</div>
+{% endblock body %}
+
+
+
+{% block script %}
+<script>
+  // Convert to String to Array Object
+  var locations = JSON.parse('{{ locations|safe }}');
+</script>
+<script>
+  var i;
+  // If you're adding a number of markers, you may want to drop them on the map
+  // consecutively rather than all at once. This example shows how to use
+  // window.setTimeout() to space your markers' animation.
+
+  var latlang = [];
+  var i;
+  // Construct Array of Objects
+  for (i = 0; i < locations.length; i++) {
+    latlang.push(
+      {
+        lat: locations[i][0],
+        lng: locations[i][1]
+      });
+  }
+  var markers = [];
+  var map;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: { lat: 20.5937, lng: 78.9629 }
+    });
+  }
+
+
+  window.onload = function () {
+    clearMarkers();
+    for (var i = 0; i < latlang.length; i++) {
+      addMarkerWithTimeout(latlang[i], i * 200);
+    }
+  };
+
+  function addMarkerWithTimeout(position, timeout) {
+    window.setTimeout(function () {
+      markers.push(new google.maps.Marker({
+        position: position,
+        map: map,
+        animation: google.maps.Animation.DROP
+      }));
+    }, timeout);
+  }
+
+  function clearMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+    markers = [];
+  }
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsIEEqoBh7-rXnD9hU2PCbLy2WAJakfb0&callback=initMap">
+</script>
+{% endblock script %}

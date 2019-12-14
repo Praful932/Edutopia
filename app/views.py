@@ -137,16 +137,34 @@ def SinglePost(request, pk):
 @login_required
 def alpha(request):
     if request.method == 'GET':
-        return render(request, 'app/alpha.html')
+        userarray = User.objects.all()
+        lat_cleaned = []
+        lng_cleaned = []
+        for user in userarray:
+            if user.is_student and user.lat:
+                lat_cleaned.append(float(user.lat))
+                lng_cleaned.append(float(user.lng))
+        locations = [list(x) for x in zip(lat_cleaned,lng_cleaned)]
+    print(locations)
+    context={
+        'locations' : locations
+    }   
+    return render(request, 'app/alpha.html',context=context)
 
 # Only Students
+# Add Student Location
 @login_required
 def AlphaAdd(request):
+    if request.user.is_mentor:
+        messages.success(
+            request, f'Only Students are allowed to access this page!')
+        return redirect('index')
     if request.method == 'GET':
         locform = LocForm()
     else:
         locform = LocForm(request.POST)
-        print(locform.errors)
+        # Print Errors
+        # print(locform.errors)
         if locform.is_valid():
             lat=locform.cleaned_data['lat']
             lng=locform.cleaned_data['lng']

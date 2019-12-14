@@ -32,7 +32,7 @@ class Student(models.Model):
         ('exp','Expert')
         )
     user=models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
-    domain=models.OneToOneField(Domain,on_delete=models.CASCADE)
+    domain=models.ForeignKey(Domain,on_delete=models.CASCADE,related_name="studentsof")
     proficiency=models.CharField(max_length=5,choices=level,default="beg") 
 
     def __str__(self):
