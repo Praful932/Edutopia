@@ -18,5 +18,6 @@ urlpatterns = [
     path(r"registerMentor", views.registerMentor, name='registerMentor'),
     path(r"MentorPost", views.MentorPost, name='MentorPost'),
     path(r"alpha", views.alpha, name='alpha'),
-    path(r"AlphaAdd",views.AlphaAdd, name='AlphaAdd')
+    path(r"AlphaAdd", views.AlphaAdd, name='AlphaAdd'),
+    path(r"beta", views.beta, name='beta')
 ]

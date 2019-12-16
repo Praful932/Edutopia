@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from app.models import User, Domain, Student, Mentor, Post
+import json
 # commit = False used when before saving it is needed to input any other data or associated any other model
 # Create your views here.
 
@@ -137,28 +138,29 @@ def SinglePost(request, pk):
 @login_required
 def alpha(request):
     if request.method == 'GET':
-        userarray = User.objects.all()
-        lat_cleaned = []
-        lng_cleaned = []
-        for user in userarray:
-            if user.is_student and user.lat:
-                lat_cleaned.append(float(user.lat))
-                lng_cleaned.append(float(user.lng))
-        locations = [list(x) for x in zip(lat_cleaned,lng_cleaned)]
-    print(locations)
-    context={
-        'locations' : locations
-    }   
-    return render(request, 'app/alpha.html',context=context)
+        studentarray = Student.objects.all()
+        # Student Info
+        usernames_cleaned = []
+        lats_cleaned = []
+        lngs_cleaned = []
+        domains_cleaned = []
+        profs_cleaned = []
+        for student in studentarray:
+            if student.user.lat:
+                usernames_cleaned.append(str(student.user))
+                lats_cleaned.append(float(student.user.lat))
+                lngs_cleaned.append(float(student.user.lng))
+                domains_cleaned.append(str(student.domain))
+                profs_cleaned.append(student.proficiency)
+        studentdata = [list(x) for x in zip(usernames_cleaned,lats_cleaned,lngs_cleaned,domains_cleaned,profs_cleaned)]
+    context = {
+        'studentdata': json.dumps(studentdata)
+    }
+    return render(request, 'app/alpha.html', context=context)
 
-# Only Students
-# Add Student Location
+# Add Student/Mentor Location
 @login_required
 def AlphaAdd(request):
-    if request.user.is_mentor:
-        messages.success(
-            request, f'Only Students are allowed to access this page!')
-        return redirect('index')
     if request.method == 'GET':
         locform = LocForm()
     else:
@@ -166,9 +168,9 @@ def AlphaAdd(request):
         # Print Errors
         # print(locform.errors)
         if locform.is_valid():
-            lat=locform.cleaned_data['lat']
-            lng=locform.cleaned_data['lng']
-            # Create user object since locform cannot be used as it will create 
+            lat = locform.cleaned_data['lat']
+            lng = locform.cleaned_data['lng']
+            # Create user object since locform cannot be used as it will create
             # another blank instance of user so update fields only of current user
             f = User.objects.get(id=request.user.id)
             f.lat = lat
@@ -176,6 +178,54 @@ def AlphaAdd(request):
             f.save()
             return redirect('index')
     context = {
-            'locform': locform
-        }
+        'locform': locform
+    }
     return render(request, 'app/alphaadd.html', context=context)
+
+
+@login_required
+def beta(request):
+    if request.method == "GET":
+        mentorarray = Mentor.objects.all()
+        studentarray = Student.objects.all()
+        # Mentor Info
+        usernamem_cleaned = []
+        latm_cleaned = []
+        lngm_cleaned = []
+        otherinfom_cleaned = []
+        domainsm_cleaned = []
+        # Student Info
+        usernames_cleaned = []
+        lats_cleaned = []
+        lngs_cleaned = []
+        domains_cleaned = []
+        profs_cleaned = []
+
+        for student in studentarray:
+            if student.user.lat:
+                usernames_cleaned.append(str(student.user))
+                lats_cleaned.append(float(student.user.lat))
+                lngs_cleaned.append(float(student.user.lng))
+                domains_cleaned.append(str(student.domain))
+                profs_cleaned.append(student.proficiency)
+        studentdata = [list(x) for x in zip(usernames_cleaned,lats_cleaned,lngs_cleaned,domains_cleaned,profs_cleaned)]
+
+        for mentor in mentorarray:
+            if mentor.user.lat:
+                usernamem_cleaned.append(str(mentor.user))
+                latm_cleaned.append(float(mentor.user.lat))
+                lngm_cleaned.append(float(mentor.user.lng))
+                otherinfom_cleaned.append(mentor.OtherInfo)
+                mentordomainlist = []
+                # Since mentor can have multiple fields
+                for domain in mentor.domains.all():
+                    mentordomainlist.append(str(domain))
+                domainsm_cleaned.append(mentordomainlist)
+        mentordata = [list(x) for x in zip(
+            usernamem_cleaned,latm_cleaned, lngm_cleaned, otherinfom_cleaned, domainsm_cleaned)]
+        
+        context = {
+            'mentordata': json.dumps(mentordata),
+            'studentdata': json.dumps(studentdata)
+        }
+    return render(request, 'app/beta.html', context=context)

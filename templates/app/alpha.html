@@ -14,7 +14,7 @@ Find Nearby People
 <div class="card text-center">
   <div class="card-header">
     {% if user.is_mentor %}
-      Students Nearby
+    Students Nearby
     {% endif %}
     {% if user.is_student %}
     People Nearby You
@@ -30,7 +30,8 @@ Find Nearby People
 {% block script %}
 <script>
   // Convert to String to Array Object
-  var locations = JSON.parse('{{ locations|safe }}');
+  var studentdata = JSON.parse('{{ studentdata|safe }}');
+  console.log(studentdata);
 </script>
 <script>
   var i;
@@ -38,17 +39,21 @@ Find Nearby People
   // consecutively rather than all at once. This example shows how to use
   // window.setTimeout() to space your markers' animation.
 
-  var latlang = [];
-  var i;
+  var latlang_student = [];
+  var infowindows_student = [];
+  var content_student = [];
   // Construct Array of Objects
-  for (i = 0; i < locations.length; i++) {
-    latlang.push(
+  for (var i = 0; i < studentdata.length; i++) {
+    latlang_student.push(
       {
-        lat: locations[i][0],
-        lng: locations[i][1]
-      });
+        lat: studentdata[i][1],
+        lng: studentdata[i][2]
+      }
+    );
+    content_student[i] = "<div><b>Username:</b> " + studentdata[i][0] + " <br><b>Interests</b>: " + studentdata[i][3] + " <br><b>Proficiency:</b> " + studentdata[i][4] + "</div>";
   }
   var markers = [];
+  var markers_student = [];
   var map;
 
   function initMap() {
@@ -58,21 +63,41 @@ Find Nearby People
     });
   }
 
-
   window.onload = function () {
     clearMarkers();
-    for (var i = 0; i < latlang.length; i++) {
-      addMarkerWithTimeout(latlang[i], i * 200);
+    for (var i = 0; i < latlang_student.length; i++) {
+      addMarkerWithTimeout(latlang_student[i], content_student[i], i * 200);
     }
   };
 
-  function addMarkerWithTimeout(position, timeout) {
+  var prev_infowindow = false;
+  
+  function addMarkerWithTimeout(position, html, timeout) {
     window.setTimeout(function () {
-      markers.push(new google.maps.Marker({
+      var data = position;
+      var marker = new google.maps.Marker({
         position: position,
         map: map,
+        title: data.name,
         animation: google.maps.Animation.DROP
-      }));
+      });
+      markers.push(marker);
+      var infowindow = new google.maps.InfoWindow(
+        {
+          content: html,
+        });
+      google.maps.event.addListener(marker, 'click', (function (marker, html) {
+        return function () {
+          if (this.getMap()) {
+            if (prev_infowindow) {
+              prev_infowindow.close();
+            }
+            infowindow.open(this.getMap(), this);
+          }
+          prev_infowindow = infowindow;
+        }
+      })(marker, html));
+
     }, timeout);
   }
 
@@ -80,10 +105,10 @@ Find Nearby People
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
-    markers = [];
+    markers_student = [];
   }
-
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsIEEqoBh7-rXnD9hU2PCbLy2WAJakfb0&callback=initMap">
-</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsIEEqoBh7-rXnD9hU2PCbLy2WAJakfb0&callback=initMap">
+  </script>
 {% endblock script %}

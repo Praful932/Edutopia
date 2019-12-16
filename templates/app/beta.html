@@ -1,0 +1,141 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/stylealpha.css' %}">
+{% endblock %}
+
+{% block title %}
+Mentors
+{% endblock %}
+
+{% block body %}
+<div class="card text-center">
+  <div class="card-header">
+    Total Available Mentors
+    {% if user.is_mentor %}
+    <a href="{% url 'AlphaAdd' %}" class="btn btn-success float-right">Add my Pin</a>
+    {% endif %}
+  </div>
+  <div id="map"></div>
+  <div id="legend">
+    <h3>Legend</h3>
+  </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script>
+  var mentordata = JSON.parse('{{ mentordata|safe }}');
+  var studentdata = JSON.parse('{{ studentdata|safe }}');
+</script>
+<script>
+  // Mentor marker
+  var latlang_mentor = [];
+  var latlang_student = [];
+  var infowindows_mentor = [];
+  var infowindows_student = [];
+  var content_mentor = [];
+  var content_student = [];
+  for (var i = 0; i < mentordata.length; i++) {
+    latlang_mentor.push({
+      lat: mentordata[i][1],
+      lng: mentordata[i][2]
+    });
+    var Domains = mentordata[i][4].join(', ');
+    content_mentor[i] = "<div><b>Username:</b> " + mentordata[i][0] + " <br><b>More Info:</b> " + mentordata[i][3] + "<br><b>Expertise</b>: " + Domains + "</div>";
+  }
+  for (var i = 0; i < studentdata.length; i++) {
+    latlang_student.push(
+      {
+        lat: studentdata[i][1],
+        lng: studentdata[i][2]
+      }
+    );
+    content_student[i] = "<div><b>Username:</b> " + studentdata[i][0] + " <br><b>Interests</b>: " + studentdata[i][3] + " <br><b>Proficiency:</b> " + studentdata[i][4] + "</div>";
+  }
+  var markers = [];
+  var markers_student = [];
+  var map;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 4,
+      center: { lat: 20.5937, lng: 78.9629 }
+    });
+  }
+
+  window.onload = function () {
+    clearMarkers();
+    for (var i = 0; i < latlang_mentor.length; i++) {
+      addMarkerWithTimeout(latlang_mentor[i], content_mentor[i], i * 200, "http://maps.google.com/mapfiles/ms/icons/purple-dot.png");
+
+    }
+    for (var i = 0; i < latlang_student.length; i++) {
+      addMarkerWithTimeout(latlang_student[i], content_student[i], i * 200, "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png");
+    }
+  };
+
+  var prev_infowindow = false;
+
+  function addMarkerWithTimeout(position, html, timeout, url) {
+    window.setTimeout(function () {
+      var data = position;
+      var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: data.name,
+        animation: google.maps.Animation.DROP,
+        icon: {
+          url: url
+        }
+      });
+      markers.push(marker);
+      var infowindow = new google.maps.InfoWindow(
+        {
+          content: html,
+        });
+      google.maps.event.addListener(marker, 'click', (function (marker, html) {
+        return function () {
+          if (this.getMap()) {
+            if (prev_infowindow) {
+              prev_infowindow.close();
+            }
+            infowindow.open(this.getMap(), this);
+          }
+          prev_infowindow = infowindow;
+        }
+      })(marker, html));
+
+    }, timeout);
+  }
+
+  function clearMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(null);
+    }
+    markers_mentor = [];
+    markers_student = [];
+
+    var legend = document.getElementById('legend');
+
+
+    function ac(name, icon) {
+      var div = document.createElement('div');
+      div.innerHTML = '<img src="' + icon + '"> ' + name;
+      legend.appendChild(div);
+    }
+    ac("Mentor", "http://maps.google.com/mapfiles/ms/icons/purple-dot.png");
+    ac("Student", "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png");
+
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push
+      (document.getElementById('legend'));
+  }
+
+
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsIEEqoBh7-rXnD9hU2PCbLy2WAJakfb0&callback=initMap">
+  </script>
+{% endblock script %}
