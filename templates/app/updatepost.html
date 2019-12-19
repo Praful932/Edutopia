@@ -1,0 +1,29 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/mentorpost.css'%}">
+{% endblock head %}
+
+{% block title %}
+Update This Post
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Your Post</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button class="btn btn-lg btn-primary" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

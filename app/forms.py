@@ -42,3 +42,10 @@ class LocForm(forms.ModelForm):
     class Meta():
         fields = ['lat','lng']
         model = User
+
+# Both for Student and Mentor
+class UserUpdateForm(forms.ModelForm):
+    class Meta():
+        fields = ['username','email']
+        model = User
+

@@ -2,6 +2,7 @@
 {% load static %}
 {% block head %}
 <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{%  static 'app/styleomega.css' %}">
 {% endblock %}
 
@@ -11,16 +12,45 @@ Explore
 
 {% block body %}
 
+<!-- Button trigger modal -->
+
+{% for domain in domains %}
+<!-- Modal -->
+<div class="modal fade" id="D{{ domain.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ domain.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ domain.description|safe }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 <!-- Career tracks -->
 <div class="container-fluid">
     <div class="card mx-auto mt-3 ct">
         <div class="card-header text-center">Explore Career Tracks </div>
         <div class="card-body d-block mx-auto">
             <div class="row justify-content-center align-items-center">
-                <div class="item"><i class="fas fa-code fa-2x mb-2"></i><span class="caption">Basic Programming</span>
-                </div>
-                <div class="item"><i class="fas fa-blog fa-2x mb-2"></i>><span class="caption">Web Development</span>
-                </div>
+                <a href="#" data-toggle="modal" data-target="#D1" style="color: #2b2b2b;">
+                    <div class="item"><i class="fas fa-code fa-2x mb-2"></i><span class="caption">Basic
+                            Programming</span>
+                    </div>
+                </a>
+                <a href="#" data-toggle="modal" data-target="#D2" style="color: #2b2b2b;"><div class="item"><i class="fas fa-blog fa-2x mb-2"></i>><span class="caption">Web Development</span>
+                </div></a>
                 <div class="item"><i class="fab fa-android fa-2x mb-2"></i><span class="caption">App Development</span>
                 </div>
                 <div class="item"><i class="fas fa-robot fa-2x mb-2"></i><span class="caption">Machine Learning</span>
@@ -40,6 +70,7 @@ Explore
             Posts
             {% if user.is_authenticated and user.is_mentor == True %}
             <a href="{% url 'MentorPost' %}" class="btn btn-success float-right">Publish New Post</a>
+            <a href="{% url 'MyPosts' %}" class="btn btn-info float-right mr-1">My Posts</a>
             {% endif %}
         </div>
         {% for post in posts %}
@@ -47,7 +78,7 @@ Explore
             <div class="card-body">
                 <h4 class="card-title">{{ post.topic }}</h4>
                 <p class="card-text">{{ post.gist }}</p>
-                <a href="{% url 'SinglePost' pk=post.id %}" class="btn btn-primary">Read More &rarr;</a>
+                <a href="{% url 'SinglePost' post.id %}" class="btn btn-primary">Read More &rarr;</a>
                 <div class="float-right">Tags: &nbsp; <span
                         class="badge badge-info">{{ post.domain }}</span>&nbsp;&nbsp;<span
                         class="badge badge-info">Tag2</span> </div>

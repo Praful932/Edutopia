@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django import forms
 from django.utils import timezone
+from django.urls import reverse
 # Create your models here.
 
 # on_delete=models.CASCADE when a foreign key's table is deleted delete all records if any associated with it
@@ -19,7 +20,7 @@ class User(AbstractUser):
 
 class Domain(models.Model):
     name=models.CharField(max_length=100)
-    description=models.CharField(max_length=100)
+    description=models.TextField(max_length=50000)
     domaintrack=models.URLField(max_length=200)
 
     def __str__(self):
@@ -61,6 +62,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.topic + f'- {self.owner}'
+    
+    # To redirect for class view after creation or updation
+    # reverse url returns string unlike redirect
+    def get_absolute_url(self):
+        return reverse('SinglePost', kwargs={'pk':self.pk})
 
 
 

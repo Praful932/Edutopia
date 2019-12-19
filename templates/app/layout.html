@@ -34,6 +34,8 @@
                     style="padding-right: 15px ; color:white;">Home</a>
                 <a class="nav-item nav-link" href="#" style="padding-right: 15px ; color:white">Explore</a>
                 {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'UpdateProfile' %}"
+                    style="padding-right: 15px ; color:white">Profile</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}"
                     style="padding-right: 15px ; color:white">Logout</a>
                 {% else %}

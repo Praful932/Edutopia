@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
-from app.forms import StudentSignUpForm, StudentFieldForm, MentorSignUpForm, MentorFieldForm, MentorPostForm, LocForm
+from app.forms import (StudentSignUpForm, StudentFieldForm, MentorSignUpForm,
+ MentorFieldForm, MentorPostForm, LocForm, UserUpdateForm)
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from app.models import User, Domain, Student, Mentor, Post
+from django.views.generic import DetailView,ListView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 import json
 # commit = False used when before saving it is needed to input any other data or associated any other model
 # Create your views here.
@@ -24,9 +28,11 @@ def register(request):
 
 
 def omega(request):
+    domains = Domain.objects.all()
     posts = Post.objects.all()
     context = {
-        'posts': posts
+        'posts': posts,
+        'domains' : domains
     }
     return render(request, "app/omega.html", context=context)
 
@@ -40,6 +46,7 @@ def registerStudent(request):
         signupform = StudentSignUpForm(request.POST)
         studentform = StudentFieldForm(request.POST)
         if signupform.is_valid() and studentform.is_valid():
+            # Can signals be used here?
             username = signupform.cleaned_data.get('username')
             new_user = signupform.save(commit=False)
             new_user.is_student = True
@@ -123,17 +130,6 @@ def MentorPost(request):
             mentorpostform.save()
             return redirect('omega')
     return render(request, 'app/mentorpost.html', context=context)
-
-# pk should be same as defined in urls.py
-
-
-def SinglePost(request, pk):
-    post = Post.objects.get(id=pk)
-    context = {
-        'post': post
-    }
-    return render(request, "app/singlepost.html", context=context)
-
 
 @login_required
 def alpha(request):
@@ -229,3 +225,79 @@ def beta(request):
             'studentdata': json.dumps(studentdata)
         }
     return render(request, 'app/beta.html', context=context)
+
+@login_required
+def UpdateProfile(request):
+    if request.method == "GET":
+        if request.user.is_student:
+            userform = UserUpdateForm(instance=request.user)
+            fieldform = StudentFieldForm(instance=request.user.student)
+        else:
+            userform = UserUpdateForm(instance=request.user)
+            fieldform = MentorFieldForm(instance=request.user.mentor)
+        context={
+            'userform' : userform,
+            'fieldform' : fieldform
+        }
+    else:
+        if request.user.is_student:
+            userform = UserUpdateForm(request.POST, instance=request.user)
+            fieldform = StudentFieldForm(request.POST, instance=request.user.student)
+        else:
+            userform = UserUpdateForm(request.POST, instance=request.user)
+            fieldform = MentorFieldForm(request.POST, instance=request.user.mentor)
+        if userform.is_valid() and fieldform.is_valid():
+            userform.save()
+            fieldform.save()    
+            return redirect('index')
+    return render(request,"app/updateprofile.html",context=context)
+
+# Detail View for Each post
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'app/singlepost.html'
+    context_object_name = 'post'
+
+# List View of Posts for Each Mentor
+class PostListView(LoginRequiredMixin,UserPassesTestMixin ,ListView):
+    model = Post
+    template_name = 'app/authorposts.html'
+
+    # Check if passes tests then render template
+    def test_func(self):
+        if self.request.user.is_mentor:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        current_mentor = Mentor.objects.get(user=self.request.user)
+        context['posts'] = Post.objects.filter(owner=current_mentor)
+        return context
+
+class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+    model = Post
+    fields = ['topic','content','domain']
+    template_name = 'app/updatepost.html'
+
+    # Check if current user is author of the post
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user.is_mentor and (post.owner.user == self.request.user):
+            return True
+        return False
+
+    def form_valid(self, form):
+        form.instance.owner.user = self.request.user
+        return super().form_valid(form)
+
+class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = Post
+    success_url = reverse_lazy('omega')
+
+    # Check if current user is author of the post
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user.is_mentor and (post.owner.user == self.request.user):
+            return True
+        return False

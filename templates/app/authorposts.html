@@ -2,11 +2,12 @@
 {% load static %}
 {% block head %}
 <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{%  static 'app/styleomega.css' %}">
 {% endblock %}
 
 {% block title %}
-Explore
+My Posts
 {% endblock %}
 
 {% block body %}
@@ -15,12 +16,16 @@ Explore
 <div class="container-fluid posts">
     <div class="card mx-auto mt-3 card-p">
         <div class="card-header text-center">
-            {{ post.topic }}
+            My Posts
         </div>
+        {% for post in posts %}
         <div class="card mb-4 card-p">
             <div class="card-body">
-                <p class="card-text">{{ post.content }}</p>
-
+                <a href="{% url 'DeletePost' post.id %}" class="btn-sm btn-danger float-right ml-2 mb-2">Delete Post</a>
+                <a href="{% url 'UpdatePost' post.id %}" class="btn-sm mb-2 btn-info float-right">Update Post</a>                
+                <h4 class="card-title">{{ post.topic }}</h4>
+                <p class="card-text">{{ post.gist }}</p>
+                <a href="{% url 'SinglePost' post.id %}" class="btn btn-primary">Read More &rarr;</a>
                 <div class="float-right">Tags: &nbsp; <span
                         class="badge badge-info">{{ post.domain }}</span>&nbsp;&nbsp;<span
                         class="badge badge-info">Tag2</span> </div>
@@ -30,6 +35,8 @@ Explore
                 <a href="#">{{ post.owner }}</a>
             </div>
         </div>
+        {% endfor %}
+
     </div>
 </div>
 

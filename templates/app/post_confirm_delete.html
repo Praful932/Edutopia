@@ -1,0 +1,30 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'app/mentorpost.css'%}">
+{% endblock head %}
+
+{% block title %}
+Delete Post
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Delete Post</h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        Are You Sure you want to Delete Your Post
+                        <button class="btn btn-lg btn-danger" type="submit">Yes, Delete</button>
+                        <a href="{% url 'MyPosts' %}" class="btn-lg ml-2 btn-secondary">Cancel</a>                
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
