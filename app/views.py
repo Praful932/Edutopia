@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from app.forms import (StudentSignUpForm, StudentFieldForm, MentorSignUpForm,
- MentorFieldForm, MentorPostForm, LocForm, UserUpdateForm)
+                       MentorFieldForm, MentorPostForm, LocForm, UserUpdateForm)
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from app.models import User, Domain, Student, Mentor, Post
-from django.views.generic import DetailView,ListView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 import json
@@ -27,14 +27,17 @@ def register(request):
     return render(request, "app/register.html")
 
 
-def omega(request):
-    domains = Domain.objects.all()
-    posts = Post.objects.all()
-    context = {
-        'posts': posts,
-        'domains' : domains
-    }
-    return render(request, "app/omega.html", context=context)
+class Omega(ListView):
+    model = Post
+    template_name = 'app/omega.html'
+    ordering = ['-created_at']
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        context['domains'] = Domain.objects.all()
+        return context
 
 
 def registerStudent(request):
@@ -131,6 +134,7 @@ def MentorPost(request):
             return redirect('omega')
     return render(request, 'app/mentorpost.html', context=context)
 
+
 @login_required
 def alpha(request):
     if request.method == 'GET':
@@ -148,7 +152,8 @@ def alpha(request):
                 lngs_cleaned.append(float(student.user.lng))
                 domains_cleaned.append(str(student.domain))
                 profs_cleaned.append(student.proficiency)
-        studentdata = [list(x) for x in zip(usernames_cleaned,lats_cleaned,lngs_cleaned,domains_cleaned,profs_cleaned)]
+        studentdata = [list(x) for x in zip(
+            usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned)]
     context = {
         'studentdata': json.dumps(studentdata)
     }
@@ -204,7 +209,8 @@ def beta(request):
                 lngs_cleaned.append(float(student.user.lng))
                 domains_cleaned.append(str(student.domain))
                 profs_cleaned.append(student.proficiency)
-        studentdata = [list(x) for x in zip(usernames_cleaned,lats_cleaned,lngs_cleaned,domains_cleaned,profs_cleaned)]
+        studentdata = [list(x) for x in zip(
+            usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned)]
 
         for mentor in mentorarray:
             if mentor.user.lat:
@@ -218,13 +224,14 @@ def beta(request):
                     mentordomainlist.append(str(domain))
                 domainsm_cleaned.append(mentordomainlist)
         mentordata = [list(x) for x in zip(
-            usernamem_cleaned,latm_cleaned, lngm_cleaned, otherinfom_cleaned, domainsm_cleaned)]
-        
+            usernamem_cleaned, latm_cleaned, lngm_cleaned, otherinfom_cleaned, domainsm_cleaned)]
+
         context = {
             'mentordata': json.dumps(mentordata),
             'studentdata': json.dumps(studentdata)
         }
     return render(request, 'app/beta.html', context=context)
+
 
 @login_required
 def UpdateProfile(request):
@@ -235,22 +242,24 @@ def UpdateProfile(request):
         else:
             userform = UserUpdateForm(instance=request.user)
             fieldform = MentorFieldForm(instance=request.user.mentor)
-        context={
-            'userform' : userform,
-            'fieldform' : fieldform
+        context = {
+            'userform': userform,
+            'fieldform': fieldform
         }
     else:
         if request.user.is_student:
             userform = UserUpdateForm(request.POST, instance=request.user)
-            fieldform = StudentFieldForm(request.POST, instance=request.user.student)
+            fieldform = StudentFieldForm(
+                request.POST, instance=request.user.student)
         else:
             userform = UserUpdateForm(request.POST, instance=request.user)
-            fieldform = MentorFieldForm(request.POST, instance=request.user.mentor)
+            fieldform = MentorFieldForm(
+                request.POST, instance=request.user.mentor)
         if userform.is_valid() and fieldform.is_valid():
             userform.save()
-            fieldform.save()    
+            fieldform.save()
             return redirect('index')
-    return render(request,"app/updateprofile.html",context=context)
+    return render(request, "app/updateprofile.html", context=context)
 
 # Detail View for Each post
 class PostDetailView(DetailView):
@@ -259,7 +268,7 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 # List View of Posts for Each Mentor
-class PostListView(LoginRequiredMixin,UserPassesTestMixin ,ListView):
+class PostListViewMentor(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Post
     template_name = 'app/authorposts.html'
 
@@ -275,9 +284,10 @@ class PostListView(LoginRequiredMixin,UserPassesTestMixin ,ListView):
         context['posts'] = Post.objects.filter(owner=current_mentor)
         return context
 
-class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['topic','content','domain']
+    fields = ['topic', 'content', 'domain']
     template_name = 'app/updatepost.html'
 
     # Check if current user is author of the post
@@ -291,7 +301,8 @@ class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
         form.instance.owner.user = self.request.user
         return super().form_valid(form)
 
-class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('omega')
 

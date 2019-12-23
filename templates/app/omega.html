@@ -18,8 +18,7 @@ Explore
 <!-- Modal -->
 <div class="modal fade" id="D{{ domain.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog" role="document">
-        
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{ domain.name }}</h5>
@@ -36,6 +35,7 @@ Explore
         </div>
     </div>
 </div>
+
 {% endfor %}
 
 <!-- Career tracks -->
@@ -49,8 +49,11 @@ Explore
                             Programming</span>
                     </div>
                 </a>
-                <a href="#" data-toggle="modal" data-target="#D2" style="color: #2b2b2b;"><div class="item"><i class="fas fa-blog fa-2x mb-2"></i>><span class="caption">Web Development</span>
-                </div></a>
+                <a href="#" data-toggle="modal" data-target="#D2" style="color: #2b2b2b;">
+                    <div class="item"><i class="fas fa-blog fa-2x mb-2"></i>><span class="caption">Web
+                            Development</span>
+                    </div>
+                </a>
                 <div class="item"><i class="fab fa-android fa-2x mb-2"></i><span class="caption">App Development</span>
                 </div>
                 <div class="item"><i class="fas fa-robot fa-2x mb-2"></i><span class="caption">Machine Learning</span>
@@ -80,8 +83,7 @@ Explore
                 <p class="card-text">{{ post.gist }}</p>
                 <a href="{% url 'SinglePost' post.id %}" class="btn btn-primary">Read More &rarr;</a>
                 <div class="float-right">Tags: &nbsp; <span
-                        class="badge badge-info">{{ post.domain }}</span>&nbsp;&nbsp;<span
-                        class="badge badge-info">Tag2</span> </div>
+                        class="badge badge-info">{{ post.domain }}</span>
             </div>
             <div class="card-footer text-muted">
                 {{ post.created_at }} by
@@ -89,9 +91,29 @@ Explore
             </div>
         </div>
         {% endfor %}
+<div class="pagebtn">
+{% if is_paginated %}
 
-    </div>
+{% if page_obj.has_previous %}
+<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page.obj.previous_page_number}}">Previous</a>
+{% endif  %}
+
+{% for num in page_obj.paginator.page_range %}
+{% if page_obj.number == num %}
+<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">First</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page.obj.paginator.num_pages }}">Previous</a>
+{% endif  %}
+
+{% endif  %}
 </div>
-
+</div></div>
 
 {% endblock %}
