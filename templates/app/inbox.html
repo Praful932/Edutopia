@@ -1,0 +1,56 @@
+{% extends "app/layout.html" %}
+{% load static %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{%  static 'app/inboxsent.css' %}">
+{% endblock %}
+
+{% block title %}
+Inbox
+{% endblock %}
+
+{% block body %}
+
+<!-- Messages of User -->
+<div class="container-fluid posts">
+    <div class="card mx-auto mt-3 card-p">
+        <div class="card-header text-center">
+            Your Inbox
+        </div>
+        {% for message in inbox_messages %}
+        <div class="card mb-4 card-p">
+            <div class="card-body">
+                <h4 class="card-title">Message from {{ message.sender.username }}</h4>
+                <p class="card-text">{{ message.msg_content }}</p>
+            <div class="card-footer text-muted">
+                Message Received at {{ message.created_at }}.
+            </div>
+        </div>
+        {% endfor %}
+<div class="pagebtn">
+{% if is_paginated %}
+
+{% if page_obj.has_previous %}
+<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page.obj.previous_page_number}}">Previous</a>
+{% endif  %}
+
+{% for num in page_obj.paginator.page_range %}
+{% if page_obj.number == num %}
+<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">First</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page.obj.paginator.num_pages }}">Previous</a>
+{% endif  %}
+
+{% endif  %}
+</div>
+</div></div>
+
+{% endblock %}

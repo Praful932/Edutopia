@@ -15,12 +15,12 @@ body
 }
 .modal-title
 {
-    font-weight:900;
     font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
 }
 .modal-body
 {
-    font-family: 'Zilla Slab', serif;
+    font-family: 'Ubuntu', sans-serif;
     font-size:18px;
 }
 .modal-header
@@ -40,7 +40,7 @@ body
 }
 .card-footer
 {
-    font-size:13px;
+    font-size:10px;
 }
 .modal-dialog 
 {
@@ -78,5 +78,4 @@ div.item
     font-size:15px;
     display: block;
 }
-
 

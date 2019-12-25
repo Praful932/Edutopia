@@ -40,6 +40,8 @@
                 {% if user.is_authenticated %}
                 <a class="nav-item nav-link" href="{% url 'UpdateProfile' %}"
                     style="padding-right: 15px ; color:white">Profile</a>
+                <a class="nav-item nav-link" href="{% url 'Chat' %}"
+                    style="padding-right: 15px ; color:white">Chat</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}"
                     style="padding-right: 15px ; color:white">Logout</a>
                 {% else %}

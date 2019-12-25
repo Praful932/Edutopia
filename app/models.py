@@ -54,7 +54,9 @@ class Post(models.Model):
     content=models.TextField(max_length=1000)
     created_at=models.DateTimeField(default = timezone.now)
     last_updated=models.DateTimeField(auto_now=True)
+    # one Domain can have multiple Posts
     domain=models.ForeignKey(Domain,on_delete=models.CASCADE,related_name="topicposts")
+    # one Mentor can have multiple Posts
     owner=models.ForeignKey(Mentor,on_delete=models.CASCADE,related_name="postsby")
 
     def gist(self):
@@ -68,6 +70,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('SinglePost', kwargs={'pk':self.pk})
 
-
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete = models.CASCADE ,related_name ="sender")
+    receiver = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "receiver")
+    msg_content = models.TextField(max_length=1000)
+    created_at = models.DateTimeField(default = timezone.now)
 
 

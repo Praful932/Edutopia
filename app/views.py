@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
-from app.forms import (StudentSignUpForm, StudentFieldForm, MentorSignUpForm,
+from app.forms import (StudentSignUpForm, StudentFieldForm, MentorSignUpForm, SendMessage,
                        MentorFieldForm, MentorPostForm, LocForm, UserUpdateForm)
 from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
-from app.models import User, Domain, Student, Mentor, Post
-from django.views.generic import DetailView, ListView, UpdateView, DeleteView
+from app.models import User, Domain, Student, Mentor, Post, Message
+from django.views.generic import DetailView, ListView, UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
+from Edutopia.settings import EMAIL_HOST_USER
 import json
 # commit = False used when before saving it is needed to input any other data or associated any other model
 # Create your views here.
@@ -86,17 +88,42 @@ def registerMentor(request):
     else:
         signupform = MentorSignUpForm(request.POST)
         mentorform = MentorFieldForm(request.POST)
-        if signupform.is_valid() and mentorform.is_valid():
+        if signupform.is_valid() and mentorform.is_valid():   
+            mentordata = {}
             username = signupform.cleaned_data.get('username')
-            new_user = signupform.save(commit=False)
-            new_user.is_mentor = True
-            new_user = signupform.save()
-            login(request, new_user)
-            mentor = mentorform.save(commit=False)
-            mentor.user = new_user
-            mentorform.save()
+            email = signupform.cleaned_data.get('email')
+            domains = mentorform.cleaned_data.get('domains')
+            OtherInfo = mentorform.cleaned_data.get('OtherInfo')
+            mentordata['username'] = username
+            mentordata['email'] = email
+            mentordata['domains'] = [str(x) for x in domains]
+            mentordata['OtherInfo'] = OtherInfo
+            print(mentordata)
+            mentordata = json.dumps(mentordata)
+
+            send_mail(
+                'Mentor Application', mentordata, 
+                EMAIL_HOST_USER , [EMAIL_HOST_USER], fail_silently = False
+            )
+            
+            message = 'Thank you for applying for the Post of Mentor at Edutopia, We will get back to you shortly\nRegards,\nPraful Mohanan'
+            send_mail(
+                'Edutopia',message,
+                EMAIL_HOST_USER,[email], fail_silently = False
+            )
+
+            ''' Code for mentor sign up '''
+            # username = signupform.cleaned_data.get('username')
+            # new_user = signupform.save(commit=False)
+            # new_user.is_mentor = True
+            # new_user = signupform.save()
+            # login(request, new_user)
+            # mentor = mentorform.save(commit=False)
+            # mentor.user = new_user
+            # mentorform.save()
+
             messages.success(
-                request, f'Account successfully created for {username}!')
+                request, f'You have successfully applied for the post of Mentor!')
             return redirect('index')
 
     return render(request, "app/registermentor.html", context=context)
@@ -312,3 +339,43 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user.is_mentor and (post.owner.user == self.request.user):
             return True
         return False
+
+
+class MessageCreate(LoginRequiredMixin,CreateView):
+    model = Message
+    form_class = SendMessage
+    template_name = 'app/chat.html'
+    success_url = reverse_lazy('Sentbox')
+
+    # to set sender to self
+    def form_valid(self, form):
+        form.instance.sender = self.request.user
+        return super().form_valid(form)
+
+    # to update kwargs to pass in user also to form
+    def get_form_kwargs(self):
+        kwargs = super(MessageCreate, self).get_form_kwargs()
+        kwargs.update({'current_user': self.request.user})
+        return kwargs
+
+class Inbox(ListView):
+    model = Message
+    template_name = 'app/inbox.html'
+    ordering = ['-created_at']
+    paginate_by = 5 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['inbox_messages'] = Message.objects.filter(receiver=self.request.user)
+        return context
+    
+class Sentbox(ListView):
+    model = Message
+    template_name = 'app/sent.html'
+    ordering = ['-created_at']
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sent_messages'] = Message.objects.filter(sender=self.request.user)
+        return context

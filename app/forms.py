@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from app.models import User, Student, Mentor, Domain, Post
+from app.models import User, Student, Mentor, Domain, Post, Message
 
 # (Student/Mentor)SignUpForm - UserCreationForm for Student or Mentor
 # (Student/Mentor)FieldForm - ModelForm for Student or Mentor
@@ -49,3 +49,19 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username','email']
         model = User
 
+class SendMessage(forms.ModelForm):
+    class Meta():
+        fields =['receiver','msg_content']
+        model = Message
+        labels ={
+            'receiver' : 'Send To',
+            'msg_content' : 'Type your Message here'
+        }
+    
+    def __init__(self,*args,**kwargs):
+        # catch passed in user and pop it to exclude receiver object
+        current_user = kwargs.pop('current_user')
+        super(SendMessage, self).__init__(*args, **kwargs)
+        username_to_exclude = [current_user.username,'admin']
+        # self.fields['receiver'].queryset = User.objects.exclude(username=self.user.username)
+        self.fields['receiver'].queryset = User.objects.exclude(username__in = username_to_exclude)

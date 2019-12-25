@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from app.views import (PostDetailView, PostListViewMentor,
-                       PostUpdateView, PostDeleteView, Omega)
+from app.views import (PostDetailView, PostListViewMentor, Inbox, MessageCreate,
+                       PostUpdateView, PostDeleteView, Omega, Sentbox)
 from . import views
 
 # django.urls expects an app as an argument
@@ -32,5 +32,8 @@ urlpatterns = [
     path(r"post/<int:pk>/", PostDetailView.as_view(), name='SinglePost'),
     path(r"myposts/", PostListViewMentor.as_view(), name='MyPosts'),
     path(r"post/<int:pk>/update/", PostUpdateView.as_view(), name='UpdatePost'),
-    path(r"post/<int:pk>/delete/", PostDeleteView.as_view(), name='DeletePost')
+    path(r"post/<int:pk>/delete/", PostDeleteView.as_view(), name='DeletePost'),
+    path(r"chat/",MessageCreate.as_view(),name ='Chat'),
+    path(r"chat/inbox",Inbox.as_view(),name = 'Inbox'),
+    path(r"chat/sentbox",Sentbox.as_view(),name = 'Sentbox')
 ]
