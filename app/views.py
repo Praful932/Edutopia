@@ -180,7 +180,8 @@ def alpha(request):
                 lngs_cleaned.append(float(student.user.lng))
                 domains_cleaned.append(str(student.domain))
                 profs_cleaned.append(student.proficiency)
-                otherinfo_cleaned.append(student.OtherInfo)
+                otherinfo_cleaned.append(student.OtherInfo.replace("'", r"`"))
+                # print(student.OtherInfo.replace("'", r"\'"))
         studentdata = [list(x) for x in zip(
             usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned,otherinfo_cleaned)]
     context = {
@@ -239,7 +240,7 @@ def beta(request):
                 lngs_cleaned.append(float(student.user.lng))
                 domains_cleaned.append(str(student.domain))
                 profs_cleaned.append(student.proficiency)
-                otherinfos_cleaned.append(student.OtherInfo)
+                otherinfos_cleaned.append(student.OtherInfo.replace("'", r"`"))
         studentdata = [list(x) for x in zip(
             usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned,otherinfos_cleaned)]
 
@@ -248,7 +249,7 @@ def beta(request):
                 usernamem_cleaned.append(str(mentor.user))
                 latm_cleaned.append(float(mentor.user.lat))
                 lngm_cleaned.append(float(mentor.user.lng))
-                otherinfom_cleaned.append(mentor.OtherInfo)
+                otherinfom_cleaned.append(mentor.OtherInfo.replace("'", r"`"))
                 mentordomainlist = []
                 # Since mentor can have multiple fields
                 for domain in mentor.domains.all():
