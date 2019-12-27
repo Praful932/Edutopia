@@ -14,8 +14,11 @@ class StudentSignUpForm(UserCreationForm):
 
 class StudentFieldForm(forms.ModelForm):
     class Meta():
-        fields = ['domain', 'proficiency']
+        fields = ['domain', 'proficiency','OtherInfo']
         model = Student
+        labels = {
+            'OtherInfo': 'Other Info'
+        }
 
 
 class MentorSignUpForm(UserCreationForm):

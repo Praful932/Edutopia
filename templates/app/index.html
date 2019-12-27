@@ -29,7 +29,7 @@ Edutopia
           <img src="{% static 'app/pl.jpg' %}" class="card-img-top" alt="meet people">
           <div class="card-body">
             <p class="card-text">Learning something new? Find people who are too!</p>
-            <a href="{% url 'alpha' %}" class="btn btn-primary">Learn More</a>
+            <a href="{% url 'alpha' %}" class="btn btn-primary">Know More</a>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@ Edutopia
           <img src="{% static 'app/stuck.jpg'%}" class="card-img-top" alt="doubt">
           <div class="card-body">
             <p class="card-text">Stuck Somewhere? Find a mentor nearby</p>
-            <a href="{% url 'beta' %}" class="btn btn-primary">Learn More</a>
+            <a href="{% url 'beta' %}" class="btn btn-primary">Know More</a>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ Edutopia
           <img src="{% static 'app/cu.jpeg' %}" class="card-img-top" alt="...">
           <div class="card-body">
             <p class="card-text">Explore sources of learning, experiences and insights</p>
-            <a href="{% url 'omega' %}" class="btn btn-primary">Learn More</a>
+            <a href="{% url 'omega' %}" class="btn btn-primary">Know More</a>
           </div>
         </div>
       </div>
@@ -77,8 +77,8 @@ Edutopia
     <p class="card-text">1.Connect with mentors and students near you who are enthusiastic to guide and learn together!</p>
     <p class="card-text">2.Start out in any domain with steps and links of curated resources.</p>
     <p class="card-text">3.Know about the latest opportunites in the field.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <a href="{% url 'beta' %}" class="btn btn-primary">Find a Mentor</a>
+    <a href="{% url 'alpha' %}" class="btn btn-primary">Find Other People</a>
     <i class="float-right fas fa-angle-double-up fa-2x" style="color:white" id="up"></i>
   </div>
 </div>
@@ -88,6 +88,13 @@ Edutopia
 {% block script %}
 <script>
   $("#f").click(function (){
+    $(".second").show();
+    $('html,body').animate({
+      scrollTop:$(".second").offset().top
+    },
+    'slow');
+  });
+  $(".about").click(function (){
     $(".second").show();
     $('html,body').animate({
       scrollTop:$(".second").offset().top
@@ -117,7 +124,7 @@ Edutopia
 
 <!--Arrow - Wait for cards to load-->
 <script>$(function () {
-    $('#f').hide(0).delay(6000).show(0);
+    $('#f').hide(0).delay(5000).show(0);
   });</script>
 
 <!--Remove load animation-->

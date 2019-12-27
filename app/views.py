@@ -172,6 +172,7 @@ def alpha(request):
         lngs_cleaned = []
         domains_cleaned = []
         profs_cleaned = []
+        otherinfo_cleaned = []
         for student in studentarray:
             if student.user.lat:
                 usernames_cleaned.append(str(student.user))
@@ -179,8 +180,9 @@ def alpha(request):
                 lngs_cleaned.append(float(student.user.lng))
                 domains_cleaned.append(str(student.domain))
                 profs_cleaned.append(student.proficiency)
+                otherinfo_cleaned.append(student.OtherInfo)
         studentdata = [list(x) for x in zip(
-            usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned)]
+            usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned,otherinfo_cleaned)]
     context = {
         'studentdata': json.dumps(studentdata)
     }
@@ -228,6 +230,7 @@ def beta(request):
         lngs_cleaned = []
         domains_cleaned = []
         profs_cleaned = []
+        otherinfos_cleaned = []
 
         for student in studentarray:
             if student.user.lat:
@@ -236,8 +239,9 @@ def beta(request):
                 lngs_cleaned.append(float(student.user.lng))
                 domains_cleaned.append(str(student.domain))
                 profs_cleaned.append(student.proficiency)
+                otherinfos_cleaned.append(student.OtherInfo)
         studentdata = [list(x) for x in zip(
-            usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned)]
+            usernames_cleaned, lats_cleaned, lngs_cleaned, domains_cleaned, profs_cleaned,otherinfos_cleaned)]
 
         for mentor in mentorarray:
             if mentor.user.lat:

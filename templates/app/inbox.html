@@ -17,6 +17,7 @@ Inbox
     <div class="card mx-auto mt-3 card-p">
         <div class="card-header text-center">
             Your Inbox
+            <a href="{% url 'Chat' %}" class="btn btn-info float-right mr-2">Chat</a>
         </div>
         {% for message in inbox_messages %}
         <div class="card mb-4 card-p">

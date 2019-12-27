@@ -17,6 +17,7 @@ Mentors
     {% if user.is_mentor %}
     <a href="{% url 'AlphaAdd' %}" class="btn btn-success float-right">Add my Pin</a>
     {% endif %}
+    <a href="{% url 'Chat' %}" class="btn btn-info float-right mr-2">Chat</a>
   </div>
   <div id="map"></div>
   <div id="legend">
@@ -53,7 +54,7 @@ Mentors
         lng: studentdata[i][2]
       }
     );
-    content_student[i] = "<div><b>Username:</b> " + studentdata[i][0] + " <br><b>Interests</b>: " + studentdata[i][3] + " <br><b>Proficiency:</b> " + studentdata[i][4] + "</div>";
+    content_student[i] = "<div><b>Username:</b> " + studentdata[i][0] + " <br><b>Interests</b>: " + studentdata[i][3] + " <br><b>Proficiency:</b> " + studentdata[i][4] + " <br><b>More Info:</b> " + studentdata[i][5] + "</div>";
   }
   var markers = [];
   var markers_student = [];
