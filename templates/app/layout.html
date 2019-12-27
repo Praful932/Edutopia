@@ -44,7 +44,8 @@
                 <a class="nav-item nav-link" href="{% url 'register' %}"
                     style="padding-right: 15px ; color:white">Register</a>
                 {% endif %}
-                <a class="nav-item nav-link about" href="#" style="padding-right: 15px ; color:white">About</a>
+                {% block about %}
+                {% endblock %}
             </div>
         </div>
     </nav>
