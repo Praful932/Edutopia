@@ -65,6 +65,6 @@ class SendMessage(forms.ModelForm):
         # catch passed in user and pop it to exclude receiver object
         current_user = kwargs.pop('current_user')
         super(SendMessage, self).__init__(*args, **kwargs)
-        username_to_exclude = [current_user.username,'admin']
+        username_to_exclude = [current_user.username,'admin','Praful']
         # self.fields['receiver'].queryset = User.objects.exclude(username=self.user.username)
         self.fields['receiver'].queryset = User.objects.exclude(username__in = username_to_exclude)
