@@ -60,7 +60,7 @@ class Post(models.Model):
     owner=models.ForeignKey(Mentor,on_delete=models.CASCADE,related_name="postsby")
 
     def gist(self):
-        return self.content[:50] + '...'
+        return self.content[:200] + '...'
 
     def __str__(self):
         return self.topic + f'- {self.owner}'
