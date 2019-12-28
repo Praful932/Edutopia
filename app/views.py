@@ -147,9 +147,6 @@ def MentorPost(request):
         return redirect('index')
     if request.method == 'GET':
         mentorpostform = MentorPostForm()
-        context = {
-            'mentorpostform': mentorpostform
-        }
     else:
         mentorpostform = MentorPostForm(request.POST)
         if mentorpostform.is_valid():
@@ -159,6 +156,9 @@ def MentorPost(request):
             ob.owner = mentor
             mentorpostform.save()
             return redirect('omega')
+    context = {
+        'mentorpostform': mentorpostform
+        }
     return render(request, 'app/mentorpost.html', context=context)
 
 
