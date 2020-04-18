@@ -2,6 +2,8 @@
 
 My Final Project for [CS50](https://cs50.harvard.edu/college/2020/spring/)
 
+![Demo](demo.gif)
+
 Live [here](https://edutopia.herokuapp.com/)
 
 ## Development
