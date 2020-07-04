@@ -1,13 +1,15 @@
 # Edutopia
 
+Live [here](https://edutopia.herokuapp.com/)
+
+What is it about? - [Abstract](https://drive.google.com/file/d/1nApaZybBSr71Em6enLdp-okG8q0l-CY3/view?usp=sharing)
+
 My Final Project for [CS50](https://cs50.harvard.edu/college/2020/spring/)
 
 ![Demo](demo.gif)
 
-Live [here](https://edutopia.herokuapp.com/)
-
 ## Development
-Note : Make sure you have Python version 3.8+
+Note : Make sure you have Python version 3.7<=
 
 Development in Separate Branch!
 
