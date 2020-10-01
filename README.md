@@ -1,6 +1,9 @@
 # Edutopia
 
+For Contributing Refer [here](https://github.com/Praful932/Edutopia/blob/master/Contributing.md)
+
 Live [here](https://edutopia.herokuapp.com/)
+
 
 What is it about? - [Abstract](https://drive.google.com/file/d/1nApaZybBSr71Em6enLdp-okG8q0l-CY3/view?usp=sharing)
 
