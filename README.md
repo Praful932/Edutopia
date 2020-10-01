@@ -1,13 +1,13 @@
 # Edutopia
 
-For Contributing Refer [here](https://github.com/Praful932/Edutopia/blob/master/Contributing.md)
+To Contribute for us by Referring [here](https://github.com/Praful932/Edutopia/blob/master/Contributing.md)
 
 Live [here](https://edutopia.herokuapp.com/)
 
 
-What is it about? - [Abstract](https://drive.google.com/file/d/1nApaZybBSr71Em6enLdp-okG8q0l-CY3/view?usp=sharing)
+What it is all about? - [Abstract](https://drive.google.com/file/d/1nApaZybBSr71Em6enLdp-okG8q0l-CY3/view?usp=sharing)
 
-My Final Project for [CS50](https://cs50.harvard.edu/college/2020/spring/)
+This is My Final Project for [CS50](https://cs50.harvard.edu/college/2020/spring/)
 
 ![Demo](demo.gif)
 
@@ -26,7 +26,7 @@ If virtualenv is not installed
 
 `$ pip install virtualenv`
 
-Create a virtual environment
+Create a virtual environment at your localhost
 
 `$ virtualenv venv`
 
@@ -34,11 +34,11 @@ Activate the environment everytime you open the project
 
 `$ source venv/Scripts/activate`
 
-Install requirements
+Install all the requirements
 
 `$ pip install -r requirements.txt`
 
-All Set!
+Get it All Set!
 
 `$ python manage.py runserver`
 
