@@ -38,6 +38,14 @@ Install requirements
 
 `$ pip install -r requirements.txt`
 
+You can delete the current database `db.sqlite3`, migrate and create a new superuser using these commands
+
+`python manage.py makemigrations`
+
+`python manage.py migrate`
+
+`python manage.py createsuperuser`
+
 All Set!
 
 `$ python manage.py runserver`
