@@ -38,8 +38,6 @@ Install all the requirements
 
 `$ pip install -r requirements.txt`
 
-Get it All Set!
-
 `$ python manage.py runserver`
 
 To exit the environment
