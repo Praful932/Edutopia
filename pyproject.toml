@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "edutopia"
+version = "0.1.0"
+description = "A Platform to connect similar minded learners and mentors he way"
+authors = ["Praful932 <praful.mohanan@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django ="^3.0.7"
+django-crispy-forms = "1.8.1"
+pre-commit = "^2.20.0"
+whitenoise = "^6.2.0"
+social-auth-app-django = "^5.0.0"
+django-storages = "^1.13.1"
+psycopg2 = "^2.9.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

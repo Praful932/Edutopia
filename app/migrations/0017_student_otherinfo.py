@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0016_message'),
+        ("app", "0016_message"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='student',
-            name='OtherInfo',
-            field=models.TextField(help_text='What You are specifically looking for here?', max_length=200, null=True),
+            model_name="student",
+            name="OtherInfo",
+            field=models.TextField(
+                help_text="What You are specifically looking for here?",
+                max_length=200,
+                null=True,
+            ),
         ),
     ]

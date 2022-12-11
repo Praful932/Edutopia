@@ -6,17 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0001_initial'),
+        ("app", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='student',
-            name='prof',
+            model_name="student",
+            name="prof",
         ),
         migrations.AddField(
-            model_name='student',
-            name='proficiency',
-            field=models.CharField(choices=[('beg', 'Beginner'), ('inter', 'Intermediate'), ('exp', 'Expert')], default='beg', max_length=5),
+            model_name="student",
+            name="proficiency",
+            field=models.CharField(
+                choices=[
+                    ("beg", "Beginner"),
+                    ("inter", "Intermediate"),
+                    ("exp", "Expert"),
+                ],
+                default="beg",
+                max_length=5,
+            ),
         ),
     ]

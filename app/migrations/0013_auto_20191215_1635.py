@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0012_auto_20191214_1633'),
+        ("app", "0012_auto_20191214_1633"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='student',
-            name='proficiency',
-            field=models.CharField(choices=[('Beginner', 'Beginner'), ('Intermediate', 'Intermediate'), ('Expert', 'Expert')], default='Beginner', max_length=20),
+            model_name="student",
+            name="proficiency",
+            field=models.CharField(
+                choices=[
+                    ("Beginner", "Beginner"),
+                    ("Intermediate", "Intermediate"),
+                    ("Expert", "Expert"),
+                ],
+                default="Beginner",
+                max_length=20,
+            ),
         ),
     ]
