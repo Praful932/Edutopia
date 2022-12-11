@@ -1,4 +1,4 @@
-#Edutopia
+# Edutopia
 
 For Contributing Refer [here](https://github.com/Praful932/Edutopia/blob/master/Contributing.md)
 
