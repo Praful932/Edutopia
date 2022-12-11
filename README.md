@@ -42,4 +42,5 @@ To exit the environment
 
 `$ deactivate `
 
+- For enabling google map API, you may need to add api key in alpha and beta page on 113 & 140 line respectively as requests are disabled for production usage.
 
