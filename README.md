@@ -1,4 +1,4 @@
-# Edutopia
+#Edutopia
 
 For Contributing Refer [here](https://github.com/Praful932/Edutopia/blob/master/Contributing.md)
 
@@ -12,9 +12,7 @@ My Final Project for [CS50](https://cs50.harvard.edu/college/2020/spring/)
 ![Demo](demo.gif)
 
 ## Development
-Note : Make sure you have Python version 3.7<=
-
-Development in Separate Branch!
+Note : Make sure you have Python version >=3.8
 
 Environment Setup
 
@@ -22,28 +20,18 @@ Environment Setup
 
 `$ cd Edutopia/`
 
-If virtualenv is not installed
+Install requirements from [poetry](https://python-poetry.org/docs/#installation) - `poetry install`
+    - OR If you prefer the vanilla route using virtual env `poetry export -f requirements.txt --output requirements.txt --without-hashes`
 
-`$ pip install virtualenv`
+Activate the environment -  `poetry shell`
 
-Create a virtual environment
-
-`$ virtualenv venv`
-
-Activate the environment everytime you open the project
-
-`$ source venv/Scripts/activate`
-
-Install requirements
-
-`$ pip install -r requirements.txt`
-
-You can delete the current database `db.sqlite3`, migrate and create a new superuser using these commands
+Migrate and create DB
 
 `python manage.py makemigrations`
 
 `python manage.py migrate`
 
+Create superuser
 `python manage.py createsuperuser`
 
 All Set!
@@ -54,4 +42,5 @@ To exit the environment
 
 `$ deactivate `
 
+- For enabling google map API, you may need to add api key in alpha and beta page on 113 & 140 line respectively as requests are disabled for production usage.
 

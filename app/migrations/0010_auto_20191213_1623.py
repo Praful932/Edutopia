@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0009_remove_user_location'),
+        ("app", "0009_remove_user_location"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='lat',
-            field=models.DecimalField(blank=True, decimal_places=6, default=0.0, max_digits=9),
+            model_name="user",
+            name="lat",
+            field=models.DecimalField(
+                blank=True, decimal_places=6, default=0.0, max_digits=9
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='lng',
-            field=models.DecimalField(blank=True, decimal_places=6, default=0.0, max_digits=9),
+            model_name="user",
+            name="lng",
+            field=models.DecimalField(
+                blank=True, decimal_places=6, default=0.0, max_digits=9
+            ),
         ),
     ]

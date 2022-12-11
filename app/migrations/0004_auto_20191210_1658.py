@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0003_mentor_otherinfo'),
+        ("app", "0003_mentor_otherinfo"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mentor',
-            name='OtherInfo',
-            field=models.CharField(help_text='Your Github/Portfolio Page or Anything you would like to add', max_length=200, null=True),
+            model_name="mentor",
+            name="OtherInfo",
+            field=models.CharField(
+                help_text="Your Github/Portfolio Page or Anything you would like to add",
+                max_length=200,
+                null=True,
+            ),
         ),
     ]

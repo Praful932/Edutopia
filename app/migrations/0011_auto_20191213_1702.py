@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0010_auto_20191213_1623'),
+        ("app", "0010_auto_20191213_1623"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='lat',
-            field=models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True),
+            model_name="user",
+            name="lat",
+            field=models.DecimalField(
+                blank=True, decimal_places=6, max_digits=9, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='lng',
-            field=models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True),
+            model_name="user",
+            name="lng",
+            field=models.DecimalField(
+                blank=True, decimal_places=6, max_digits=9, null=True
+            ),
         ),
     ]
